@@ -24,7 +24,7 @@ class DataFunctions {
         database: db,
         vaccinesList: vaccinesList,
       );
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
@@ -77,9 +77,7 @@ class DataFunctions {
               'INSERT INTO $tableName(districtName, districtID) VALUES("$key", $value)');
         });
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<bool> isTableEmpty(String tableName, Database database) async {
@@ -89,7 +87,7 @@ class DataFunctions {
       int countVal = count.elementAt(0).values.elementAt(0);
 
       return countVal == 0;
-    } catch (e) {
+    } catch (_) {
       return true;
     }
   }
@@ -128,9 +126,7 @@ class DataFunctions {
               'INSERT INTO ${CommonData.stateTable}(stateName, stateID) VALUES("$key", $value)');
         });
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<void> createUserTable(Database database) async {
@@ -138,9 +134,7 @@ class DataFunctions {
       if (await isTableNotExists(CommonData.userTable, database))
         await database.execute(
             'CREATE TABLE ${CommonData.userTable} (districtName TEXT PRIMARY KEY, districtID INTEGER, stateName TEXT, stateID INTEGER)');
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<List<Map>> getUserTable(Database database) async {
@@ -151,8 +145,8 @@ class DataFunctions {
           await database.rawQuery('SELECT * FROM ${CommonData.userTable}');
 
       return data;
-    } catch (e) {
-      return [];
+    } catch (_) {
+      return const [];
     }
   }
 
@@ -167,9 +161,7 @@ class DataFunctions {
         await txn.rawInsert(
             'INSERT INTO ${CommonData.userTable}(districtName, districtID, stateName, stateID) VALUES("$districtName", $districtID, "$stateName", $stateID)');
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<String> getDatabaseFilePath() async {
@@ -177,7 +169,7 @@ class DataFunctions {
       String databasesPath = await getDatabasesPath();
       String path = join(databasesPath + 'vaccine_tracker_makeshtech.db');
       return path;
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
@@ -211,9 +203,8 @@ class DataFunctions {
       var map = json.decode(response.body)['centers'] as List;
 
       return map;
-    } catch (e) {
-      print(e);
-      return [];
+    } catch (_) {
+      return const [];
     }
   }
 
@@ -223,15 +214,14 @@ class DataFunctions {
       Response _res =
           await globalFunctions.getWebResponse(CommonData.vaccineJsonUrl);
 
-      if (_res.statusCode != 200 || _res == null) return ['ANY'];
+      if (_res.statusCode != 200 || _res == null) return const ['ANY'];
 
       Map<String, String> data =
           Map<String, String>.from(json.decode(_res.body));
       String vaccineCombinedList = data['vaccine'];
       return vaccineCombinedList.split(',');
-    } catch (e) {
-      print(e);
-      return ['ANY'];
+    } catch (_) {
+      return const ['ANY'];
     }
   }
 }

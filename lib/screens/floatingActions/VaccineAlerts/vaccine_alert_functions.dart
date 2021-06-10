@@ -19,10 +19,9 @@ class VaccineAlertClass {
       }
 
       final prefs = await SharedPreferences.getInstance();
-      final String vaccineSelected =
-          prefs.getString(AlertScreen.vaccinePrefs) ??
-              CommonData.defaultVaccineType;
-
+      String vaccineSelected = prefs.getString(AlertScreen.vaccinePrefs) ??
+          CommonData.defaultVaccineType;
+      vaccineSelected = vaccineSelected.replaceAll(' ', '_').toLowerCase();
       List<String> _available = [];
 
       List<Map> userLocations = await _dataFunctions.getUserTable(database);
@@ -41,7 +40,12 @@ class VaccineAlertClass {
 
           sessions.forEach((eachSession) {
             if (eachSession['available_capacity'].toString() != '0') {
-              if (eachSession['vaccine'].toString().contains(vaccineSelected) ||
+              String vaccineInSession = eachSession['vaccine']
+                  .toString()
+                  .replaceAll(' ', '_')
+                  .toLowerCase();
+
+              if (vaccineInSession.contains(vaccineSelected) ||
                   vaccineSelected.contains(CommonData.defaultVaccineType))
                 filterZeroCapacity.add(eachSession);
             }

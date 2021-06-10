@@ -123,6 +123,9 @@ class _CentresListState extends State<CentresList> {
   Future<void> _load() async {
     try {
       _centresList.clear();
+      String vaccineSelected = widget.vaccineSelected;
+      vaccineSelected = vaccineSelected.replaceAll(' ', '_').toLowerCase();
+
       final String date = widget.isToday
           ? _globalFunctions.getTodayDate()
           : _globalFunctions.getTomorrowDate();
@@ -135,16 +138,15 @@ class _CentresListState extends State<CentresList> {
 
       mapTemp.forEach((element) {
         Map map = element;
-        String vaccine = map['vaccine'].toString();
+        String vaccine =
+            map['vaccine'].toString().replaceAll(' ', '_').toLowerCase();
         String count = map['available_capacity'].toString() ?? '';
 
         if (count != '0' &&
-            (vaccine.contains(widget.vaccineSelected) ||
-                widget.vaccineSelected.contains(CommonData.defaultVaccineType)))
+            (vaccine.contains(vaccineSelected) ||
+                vaccineSelected.contains(CommonData.defaultVaccineType)))
           _centresList.add(map);
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 }

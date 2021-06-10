@@ -38,7 +38,7 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
       await VaccineAlertClass().getAlert();
       BackgroundFetch.finish(taskId);
     }
-  } catch (e) {}
+  } catch (_) {}
 }
 
 class MaterialRootWidget extends StatelessWidget {

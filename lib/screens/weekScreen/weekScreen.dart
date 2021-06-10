@@ -89,8 +89,17 @@ class _WeekScreenState extends State<WeekScreen> {
 
           sessions.forEach((eachSession) {
             if (eachSession['available_capacity'].toString() != '0') {
-              if (eachSession['vaccine'].toString().contains(selectedVaccine) ||
-                  selectedVaccine.contains(CommonData.defaultVaccineType))
+              String vaccineInSession = eachSession['vaccine']
+                  .toString()
+                  .replaceAll(' ', '_')
+                  .toLowerCase();
+
+              String selectedVaccineFormatted =
+                  selectedVaccine.replaceAll(' ', '_').toLowerCase();
+
+              if (vaccineInSession.contains(selectedVaccineFormatted) ||
+                  selectedVaccineFormatted
+                      .contains(CommonData.defaultVaccineType))
                 filterZeroCapacity.add(eachSession);
             }
           });
@@ -102,9 +111,7 @@ class _WeekScreenState extends State<WeekScreen> {
             ));
         });
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   void setVaccineType(String value) => setState(() => selectedVaccine = value);
