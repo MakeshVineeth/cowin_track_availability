@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
-  static final String appVer = '1.0';
+  static final String appVer = '1.0.1';
   static final String appDesc =
       'An Open-Source App that can track Vaccines in India using CoWIN Public APIs. Supports Notifications and Dark Theme based on System Default Theme. Retrieves data directly from the CoWIN Public APIs.';
   static final String logoAsset = 'assets/vaccine.png';
@@ -21,10 +21,11 @@ class CommonData {
 
   static final double smallFont = 15.0;
   static final double outerPadding = 10.0;
-  static final String defaultVaccineType = 'Any';
+  static final String defaultVaccineType = 'ANY';
   static final String aarogyaSetu = 'nic.goi.aarogyasetu';
   static final String coWin = 'com.cowinapp.app';
   static final String vaccineHintText = 'Vaccine Type: ';
+  static final String dateFormat = 'dd-MM-yyyy';
 
   static final Map<String, int> intervals = {
     '15 min': 15,
@@ -39,7 +40,7 @@ class CommonData {
   static ThemeData getTheme(BuildContext context, Brightness brightness) {
     bool isDarkTheme = brightness == Brightness.dark;
     Color background = isDarkTheme ? Colors.black : Colors.white;
-    Color primary = isDarkTheme ? Colors.lime : Colors.blue;
+    Color primary = isDarkTheme ? Colors.lime : Colors.indigo;
 
     return ThemeData(
       appBarTheme: AppBarTheme(

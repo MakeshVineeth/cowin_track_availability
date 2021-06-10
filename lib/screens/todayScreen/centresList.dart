@@ -46,79 +46,78 @@ class _CentresListState extends State<CentresList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              _centresList.isNotEmpty) {
-            return Padding(
-              padding: EdgeInsets.all(CommonData.outerPadding),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.districtName + ', ' + widget.stateName,
-                        style: TextStyle(
-                          fontSize: CommonData.smallFont,
-                          fontWeight: FontWeight.w600,
-                        ),
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            _centresList.isNotEmpty) {
+          return Padding(
+            padding: EdgeInsets.all(CommonData.outerPadding),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.districtName + ', ' + widget.stateName,
+                      style: TextStyle(
+                        fontSize: CommonData.smallFont,
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(height: 10),
-                      ExpandChild(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: List.generate(
-                            _centresList.length,
-                            (index) => DetailItem(
-                              map: _centresList.elementAt(index),
-                              showDivider: _centresList.length > 1,
-                            ),
+                    ),
+                    SizedBox(height: 10),
+                    ExpandChild(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: List.generate(
+                          _centresList.length,
+                          (index) => DetailItem(
+                            map: _centresList.elementAt(index),
+                            showDivider: _centresList.length > 1,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done &&
-              _centresList.isEmpty)
-            return NotAvailableWidget(widget.districtName);
-
-          // placeholder for initial loading.
-          else
-            return placeHolderWithText();
-        });
-  }
-
-  Widget placeHolderWithText() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: CommonData.smallFont,
-            height: CommonData.smallFont,
-            child: LoadingIndicator(
-              indicatorType: Indicator.ballScale,
-              color: Theme.of(context).textTheme.bodyText1.color,
             ),
-          ),
-          SizedBox(width: 5),
-          Text(
-            'Checking on ' + widget.districtName,
-            style: TextStyle(
-              fontSize: CommonData.smallFont,
-              height: 1,
-            ),
-          ),
-        ],
-      ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.done &&
+            _centresList.isEmpty)
+          return NotAvailableWidget(widget.districtName);
+
+        // placeholder for initial loading.
+        else
+          return placeHolderWithText();
+      },
     );
   }
+
+  Widget placeHolderWithText() => Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: CommonData.smallFont,
+              height: CommonData.smallFont,
+              child: LoadingIndicator(
+                indicatorType: Indicator.ballScale,
+                color: Theme.of(context).textTheme.bodyText1.color,
+              ),
+            ),
+            SizedBox(width: 5),
+            Text(
+              'Checking on ' + widget.districtName,
+              style: TextStyle(
+                fontSize: CommonData.smallFont,
+                height: 1,
+              ),
+            ),
+          ],
+        ),
+      );
 
   Future<void> _load() async {
     try {
@@ -139,9 +138,9 @@ class _CentresListState extends State<CentresList> {
       mapTemp.forEach((element) {
         Map map = element;
         String vaccine =
-            map['vaccine'].toString().replaceAll(' ', '_').toLowerCase().trim();
+            map['vaccine'].toString().trim().replaceAll(' ', '_').toLowerCase();
         String defaultVaccine = CommonData.defaultVaccineType.toLowerCase();
-        String count = map['available_capacity'].toString() ?? '';
+        String count = map['available_capacity'].toString() ?? '0';
 
         if (count != '0' &&
             (vaccine.contains(vaccineSelected) ||

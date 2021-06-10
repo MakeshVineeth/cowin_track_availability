@@ -40,7 +40,9 @@ class VaccineAlertClass {
           List filterZeroCapacity = [];
 
           sessions.forEach((eachSession) {
-            if (eachSession['available_capacity'].toString().trim() != '0') {
+            String availableCapacity =
+                eachSession['available_capacity'].toString().trim() ?? '0';
+            if (availableCapacity != '0') {
               String vaccineInSession = eachSession['vaccine']
                   .toString()
                   .trim()

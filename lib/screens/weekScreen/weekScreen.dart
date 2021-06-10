@@ -78,40 +78,48 @@ class _WeekScreenState extends State<WeekScreen> {
           database: _databaseProvider.database,
         );
 
-        if (map.isEmpty) {
-          String districtName = district['districtName'];
-          centres.add(NotAvailableWidget(districtName));
-        }
+        if (map.isEmpty)
+          centres.add(NotAvailableWidget(district['districtName']));
 
         // map contains all the centres in a district.
+        List<CenterDetailCard> allCenters = List.empty();
         map.forEach((eachCenter) {
           List sessions = eachCenter['sessions'];
           List filterZeroCapacity = [];
 
           sessions.forEach((eachSession) {
-            if (eachSession['available_capacity'].toString() != '0') {
+            String availableCapacity =
+                eachSession['available_capacity'].toString() ?? '0';
+
+            if (availableCapacity != '0') {
               String vaccineInSession = eachSession['vaccine']
                   .toString()
+                  .trim()
                   .replaceAll(' ', '_')
                   .toLowerCase();
 
               String selectedVaccineFormatted =
                   selectedVaccine.replaceAll(' ', '_').toLowerCase();
-              String defaultVaccine = CommonData.defaultVaccineType.toLowerCase();
+              String defaultVaccine =
+                  CommonData.defaultVaccineType.toLowerCase();
 
               if (vaccineInSession.contains(selectedVaccineFormatted) ||
-                  selectedVaccineFormatted
-                      .contains(defaultVaccine))
+                  selectedVaccineFormatted.contains(defaultVaccine))
                 filterZeroCapacity.add(eachSession);
             }
           });
 
           if (filterZeroCapacity.isNotEmpty)
-            centres.add(CenterDetailCard(
+            allCenters.add(CenterDetailCard(
               center: eachCenter,
               session: filterZeroCapacity,
             ));
         });
+
+        if (allCenters.isNotEmpty)
+          centres.addAll(allCenters);
+        else
+          centres.add(NotAvailableWidget(district['districtName']));
       }
     } catch (_) {}
   }

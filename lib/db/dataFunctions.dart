@@ -141,7 +141,7 @@ class DataFunctions {
     try {
       if (await isTableNotExists(CommonData.userTable, database)) return [];
 
-      var data =
+      List<Map> data =
           await database.rawQuery('SELECT * FROM ${CommonData.userTable}');
 
       return data;
@@ -157,17 +157,24 @@ class DataFunctions {
       @required int districtID,
       @required Database database}) async {
     try {
-      await database.transaction((txn) async {
-        await txn.rawInsert(
-            'INSERT INTO ${CommonData.userTable}(districtName, districtID, stateName, stateID) VALUES("$districtName", $districtID, "$stateName", $stateID)');
-      });
+      if (await isTableNotExists(CommonData.userTable, database)) return;
+
+      int sameDistrictCount = Sqflite.firstIntValue(await database.rawQuery(
+          "SELECT COUNT(*) FROM ${CommonData.userTable} WHERE districtID=$districtID")) ?? 0;
+
+      // If sameDistrictCount is Zero, then it is unique user location.
+      if (sameDistrictCount == 0)
+        await database.transaction((txn) async {
+          await txn.rawInsert(
+              'INSERT INTO ${CommonData.userTable}(districtName, districtID, stateName, stateID) VALUES("$districtName", $districtID, "$stateName", $stateID)');
+        });
     } catch (_) {}
   }
 
   Future<String> getDatabaseFilePath() async {
     try {
       String databasesPath = await getDatabasesPath();
-      String path = join(databasesPath + 'vaccine_tracker_makeshtech.db');
+      final String path = join(databasesPath + 'vaccine_tracker_makeshtech.db');
       return path;
     } catch (_) {
       return null;

@@ -143,12 +143,11 @@ class _AlertScreenState extends State<AlertScreen> {
   }
 
   void changeSwitchStatus(bool status) async {
-    if (status) {
+    if (status)
       await initPlatformState();
-    } else {
+    else
       await BackgroundFetch.stop().then(
           (int status) => print('VaccineAlertService: Stopped.: $status'));
-    }
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(prefKey, status);

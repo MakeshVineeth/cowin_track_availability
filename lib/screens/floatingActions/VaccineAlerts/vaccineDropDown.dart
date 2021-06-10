@@ -82,7 +82,12 @@ class _GenericTypeDropDownState extends State<GenericTypeDropDown> {
         list.length,
         (index) => DropdownMenuItem<String>(
           value: list.elementAt(index),
-          child: Text(list.elementAt(index)),
+          child: Text(
+            list.elementAt(index),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
