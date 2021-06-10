@@ -118,9 +118,7 @@ class _LocationSelectorState extends State<LocationSelector>
       _selectedOptionProvider.stateName = value;
 
       if (mounted) setState(() => dropDownValState = value);
-
-      _selectedOptionProvider.update();
-    } catch (e) {}
+    } catch (_) {}
   }
 
   Future<void> loadData() async {
@@ -130,12 +128,12 @@ class _LocationSelectorState extends State<LocationSelector>
       var data = await db.rawQuery('SELECT * FROM ${CommonData.stateTable}');
 
       data.forEach((Map<String, dynamic> element) {
-        String name = element['stateName'];
-        int id = element['stateID'];
+        final String name = element['stateName'];
+        final int id = element['stateID'];
+
         _locations.addAll({name: id});
       });
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return;
     }
   }

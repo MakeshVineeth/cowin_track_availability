@@ -50,6 +50,7 @@ class _WeekScreenState extends State<WeekScreen> {
                         parent: BouncingScrollPhysics()),
                     controller: _scrollController,
                     itemCount: centres.length,
+                    cacheExtent: 2000,
                     itemBuilder: (context, index) => centres.elementAt(index),
                   ),
                 ),
@@ -96,10 +97,11 @@ class _WeekScreenState extends State<WeekScreen> {
 
               String selectedVaccineFormatted =
                   selectedVaccine.replaceAll(' ', '_').toLowerCase();
+              String defaultVaccine = CommonData.defaultVaccineType.toLowerCase();
 
               if (vaccineInSession.contains(selectedVaccineFormatted) ||
                   selectedVaccineFormatted
-                      .contains(CommonData.defaultVaccineType))
+                      .contains(defaultVaccine))
                 filterZeroCapacity.add(eachSession);
             }
           });

@@ -26,10 +26,11 @@ class _UserLocationsState extends State<UserLocations> {
       future: process(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
-            _list.isNotEmpty) {
+            _list.isNotEmpty)
           return ListView(
             physics:
                 AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            cacheExtent: 2000,
             children: [
               Column(
                 children: List.generate(
@@ -44,9 +45,8 @@ class _UserLocationsState extends State<UserLocations> {
               Center(child: popUpSelector()),
             ],
           );
-        } else {
+        else
           return Center(child: popUpSelector());
-        }
       },
     );
   }

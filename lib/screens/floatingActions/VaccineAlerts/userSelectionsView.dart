@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 class UserSelectionsView extends StatefulWidget {
   final Database database;
+
   const UserSelectionsView({@required this.database});
 
   @override
@@ -47,6 +48,7 @@ class _UserSelectionsViewState extends State<UserSelectionsView> {
         itemCount: _list.length,
         physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         separatorBuilder: (context, index) => Divider(),
+        cacheExtent: 2000,
         itemBuilder: (context, index) => ListTile(
           onTap: () {},
           shape: CommonData.roundedRectangleBorder,

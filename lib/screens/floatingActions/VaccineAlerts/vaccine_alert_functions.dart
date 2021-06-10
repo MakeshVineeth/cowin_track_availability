@@ -24,7 +24,8 @@ class VaccineAlertClass {
       vaccineSelected = vaccineSelected.replaceAll(' ', '_').toLowerCase();
       List<String> _available = [];
 
-      List<Map> userLocations = await _dataFunctions.getUserTable(database);
+      final List<Map> userLocations =
+          await _dataFunctions.getUserTable(database);
 
       for (Map district in userLocations) {
         String districtID = district['districtID'].toString();
@@ -39,14 +40,18 @@ class VaccineAlertClass {
           List filterZeroCapacity = [];
 
           sessions.forEach((eachSession) {
-            if (eachSession['available_capacity'].toString() != '0') {
+            if (eachSession['available_capacity'].toString().trim() != '0') {
               String vaccineInSession = eachSession['vaccine']
                   .toString()
+                  .trim()
                   .replaceAll(' ', '_')
                   .toLowerCase();
 
+              String defaultVaccine =
+                  CommonData.defaultVaccineType.toLowerCase();
+
               if (vaccineInSession.contains(vaccineSelected) ||
-                  vaccineSelected.contains(CommonData.defaultVaccineType))
+                  vaccineSelected.contains(defaultVaccine))
                 filterZeroCapacity.add(eachSession);
             }
           });
@@ -75,8 +80,6 @@ class VaccineAlertClass {
           platformChannelSpecifics,
         );
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 }

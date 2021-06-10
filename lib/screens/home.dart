@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   Future<void> futureIndex;
-  GlobalFunctions _globalFunctions = GlobalFunctions();
+  final GlobalFunctions _globalFunctions = GlobalFunctions();
 
   final List<Widget> widgets = [
     UserLocations(),
@@ -75,7 +75,6 @@ class _HomeState extends State<Home> {
               tooltip: 'More Actions',
               renderOverlay: false,
               overlayOpacity: 0.0,
-              curve: Curves.decelerate,
               children: _loadSpeedDialList(),
             ),
             bottomNavigationBar: BottomNavigationBar(
@@ -114,7 +113,7 @@ class _HomeState extends State<Home> {
       );
 
   List<SpeedDialChild> _loadSpeedDialList() {
-    List<SpeedDialChild> list1 = [
+    final List<SpeedDialChild> list1 = [
       speedDialItem(
         'Set Alerts',
         () => Navigator.pushNamed(context, '/alert'),
@@ -127,7 +126,7 @@ class _HomeState extends State<Home> {
       ),
     ];
 
-    List<SpeedDialChild> list2 = [
+    final List<SpeedDialChild> list2 = [
       speedDialItem(
         'CoWin App',
         () => _globalFunctions.launchApp(CommonData.coWin),

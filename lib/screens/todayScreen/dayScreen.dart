@@ -66,8 +66,9 @@ class _DayScreenState extends State<DayScreen> {
                     physics: AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics()),
                     controller: _scrollController,
+                    cacheExtent: 2000,
                     itemBuilder: (context, index) {
-                      Map item = _userLocations.elementAt(index);
+                      final Map item = _userLocations.elementAt(index);
 
                       return CentresList(
                         districtID: item['districtID'].toString(),
@@ -94,7 +95,7 @@ class _DayScreenState extends State<DayScreen> {
     try {
       _userLocations =
           await _dataFunctions.getUserTable(_databaseProvider.database);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   void setVaccineType(String value) => setState(() => selectedVaccine = value);

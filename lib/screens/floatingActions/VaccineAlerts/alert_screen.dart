@@ -47,7 +47,8 @@ class _AlertScreenState extends State<AlertScreen> {
 
   void setVaccineType(String value) {
     setState(() => selectedVaccine = value);
-    changeSwitchStatus(false);
+    changeSwitchStatus(
+        false); // When Vaccine has been changed from DropDown, turn off the background service.
   }
 
   Future<void> initPlatformState() async {
@@ -70,9 +71,7 @@ class _AlertScreenState extends State<AlertScreen> {
           onTimeOut,
         );
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<void> onFetch(String taskId) async {
@@ -82,17 +81,13 @@ class _AlertScreenState extends State<AlertScreen> {
             .getAlert(database: _databaseProvider?.database);
         BackgroundFetch.finish(taskId);
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   Future<void> onTimeOut(String taskId) async {
     try {
       BackgroundFetch.finish(taskId);
-    } catch (e) {
-      print(e);
-    }
+    } catch (_) {}
   }
 
   @override
@@ -116,9 +111,10 @@ class _AlertScreenState extends State<AlertScreen> {
               softWrap: true,
             ),
             SizedBox(height: 10),
-            Expanded(
-              child: UserSelectionsView(database: _databaseProvider.database),
-            ),
+            if (MediaQuery.of(context).orientation == Orientation.portrait)
+              Expanded(
+                child: UserSelectionsView(database: _databaseProvider.database),
+              ),
             SizedBox(height: 10),
             GenericTypeDropDown(
               list: CommonData.intervals.keys.toList(),

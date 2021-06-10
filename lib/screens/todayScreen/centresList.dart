@@ -139,12 +139,13 @@ class _CentresListState extends State<CentresList> {
       mapTemp.forEach((element) {
         Map map = element;
         String vaccine =
-            map['vaccine'].toString().replaceAll(' ', '_').toLowerCase();
+            map['vaccine'].toString().replaceAll(' ', '_').toLowerCase().trim();
+        String defaultVaccine = CommonData.defaultVaccineType.toLowerCase();
         String count = map['available_capacity'].toString() ?? '';
 
         if (count != '0' &&
             (vaccine.contains(vaccineSelected) ||
-                vaccineSelected.contains(CommonData.defaultVaccineType)))
+                vaccineSelected.contains(defaultVaccine)))
           _centresList.add(map);
       });
     } catch (_) {}

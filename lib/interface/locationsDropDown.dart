@@ -7,7 +7,7 @@ class LocationsDropDown extends StatefulWidget {
   final Function onChangeEvent;
   final String hintText;
 
-  LocationsDropDown(
+  const LocationsDropDown(
       {@required this.futureMethod,
       @required this.value,
       @required this.list,
@@ -38,19 +38,19 @@ class _LocationsDropDownState extends State<LocationsDropDown> {
         padding: const EdgeInsets.all(8.0),
         child: DropdownButtonHideUnderline(
           child: FutureBuilder(
-              future: widget.futureMethod,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return _dropDownBtnGeneric(
-                    value: widget.value,
-                    hintText: widget.hintText,
-                    function: widget.onChangeEvent,
-                    list: widget.list,
-                  );
-                } else {
-                  return placeHolder();
-                }
-              }),
+            future: widget.futureMethod,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done)
+                return _dropDownBtnGeneric(
+                  value: widget.value,
+                  hintText: widget.hintText,
+                  function: widget.onChangeEvent,
+                  list: widget.list,
+                );
+              else
+                return placeHolder();
+            },
+          ),
         ),
       ),
     );
@@ -83,7 +83,7 @@ class _LocationsDropDownState extends State<LocationsDropDown> {
       value: loadingStr,
       function: null,
       hintText: loadingStr,
-      list: {},
+      list: const {},
     );
   }
 }

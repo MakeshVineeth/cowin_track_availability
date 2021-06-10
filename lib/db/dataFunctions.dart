@@ -1,7 +1,7 @@
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
 import 'package:cowin_track_availability/global_functions.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:meta/meta.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -214,14 +214,15 @@ class DataFunctions {
       Response _res =
           await globalFunctions.getWebResponse(CommonData.vaccineJsonUrl);
 
-      if (_res.statusCode != 200 || _res == null) return const ['ANY'];
+      if (_res.statusCode != 200 || _res == null)
+        return [CommonData.defaultVaccineType];
 
       Map<String, String> data =
           Map<String, String>.from(json.decode(_res.body));
       String vaccineCombinedList = data['vaccine'];
       return vaccineCombinedList.split(',');
     } catch (_) {
-      return const ['ANY'];
+      return [CommonData.defaultVaccineType];
     }
   }
 }

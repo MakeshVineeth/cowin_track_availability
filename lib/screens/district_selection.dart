@@ -42,9 +42,8 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       _selectedOptionProvider.districtName = value;
 
       if (mounted) setState(() => dropDownValState = value);
-
       _selectedOptionProvider.update();
-    } catch (e) {}
+    } catch (_) {}
   }
 
   Future<void> loadData() async {
@@ -64,12 +63,11 @@ class _DistrictSelectionState extends State<DistrictSelection> {
       var data = await db.rawQuery('SELECT * FROM $tableName');
 
       data.forEach((Map<String, dynamic> element) {
-        String name = element['districtName'];
-        int id = element['districtID'];
+        final String name = element['districtName'];
+        final int id = element['districtID'];
         districts.addAll({name: id});
       });
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return;
     }
   }
