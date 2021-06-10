@@ -21,7 +21,7 @@ class CommonData {
 
   static final double smallFont = 15.0;
   static final double outerPadding = 10.0;
-  static final String defaultVaccineType = 'ANY';
+  static final String defaultVaccineType = 'Any';
   static final String aarogyaSetu = 'nic.goi.aarogyasetu';
   static final String coWin = 'com.cowinapp.app';
   static final String vaccineHintText = 'Vaccine Type: ';
