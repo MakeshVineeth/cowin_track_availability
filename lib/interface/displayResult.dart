@@ -12,6 +12,7 @@ class DisplayResult extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             header,

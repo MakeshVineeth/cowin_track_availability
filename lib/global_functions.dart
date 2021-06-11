@@ -127,8 +127,15 @@ class GlobalFunctions {
   }
 
   Color getColorFromAvailability({@required String availabilityStr}) {
-    return int.tryParse(availabilityStr) < 10
-        ? Colors.deepOrange[600]
-        : Colors.green[800];
+    Color error = Colors.deepOrange[600];
+    Color okay = Colors.green[800];
+    try {
+      if (availabilityStr == '0') return error;
+      int count = int.tryParse(availabilityStr);
+
+      return count < 10 ? error : okay;
+    } catch (_) {
+      return error;
+    }
   }
 }

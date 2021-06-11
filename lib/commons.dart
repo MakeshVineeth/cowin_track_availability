@@ -28,7 +28,7 @@ class CommonData {
   static final String aarogyaSetu = 'nic.goi.aarogyasetu';
   static final String coWin = 'com.cowinapp.app';
   static final String vaccineHintText = 'Vaccine Type: ';
-  static final String ageSelectionHint = 'Select Age: ';
+  static final String ageSelectionHint = 'Minimum Age: ';
   static final String agePref = 'age_pref';
   static final String dateFormat = 'dd-MM-yyyy';
 

@@ -17,33 +17,39 @@ class DetailItem extends StatelessWidget {
     String address = '${map['address']}, $pinCode' ?? '';
 
     if (address.isEmpty) address = blockName + pinCode;
+    String availableDoses = map['available_capacity'].toString() ?? '--';
+    String doses1 = map['available_capacity_dose1'].toString() ?? '--';
+    String doses2 = map['available_capacity_dose2'].toString() ?? '--';
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DisplayResult(
           text: map['name'].toString(),
           header: 'Name: ',
         ),
         DisplayResult(
-          text: map['available_capacity'].toString(),
+          text: availableDoses,
           header: 'Available Doses: ',
           color: globalFunctions.getColorFromAvailability(
-              availabilityStr: '${map['available_capacity']}'),
+            availabilityStr: availableDoses,
+          ),
         ),
         Row(
           children: [
             DisplayResult(
-              text: map['available_capacity_dose1'].toString() ?? '--',
+              text: doses1,
               header: 'Dose 1: ',
               color: globalFunctions.getColorFromAvailability(
-                  availabilityStr: '${map['available_capacity']}'),
+                availabilityStr: doses1,
+              ),
             ),
-            SizedBox(width: 10),
             DisplayResult(
-              text: map['available_capacity_dose2'].toString() ?? '--',
+              text: doses2,
               header: 'Dose 2: ',
               color: globalFunctions.getColorFromAvailability(
-                  availabilityStr: '${map['available_capacity']}'),
+                availabilityStr: doses2,
+              ),
             ),
           ],
         ),

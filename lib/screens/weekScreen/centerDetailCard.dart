@@ -17,11 +17,15 @@ class CenterDetailCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              center['name'],
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+            Center(
+              child: Text(
+                center['name'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             SizedBox(height: 12),
@@ -54,7 +58,17 @@ class CenterDetailCard extends StatelessWidget {
 
   List<Widget> _sessions() {
     return List.generate(session.length, (index) {
+      String availableDoses =
+          session.elementAt(index)['available_capacity'].toString() ?? '--';
+      String doses1 =
+          session.elementAt(index)['available_capacity_dose1'].toString() ??
+              '--';
+      String doses2 =
+          session.elementAt(index)['available_capacity_dose2'].toString() ??
+              '--';
+
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (index == 0) Divider(),
           DisplayResult(
@@ -63,35 +77,25 @@ class CenterDetailCard extends StatelessWidget {
           ),
           DisplayResult(
             header: 'Available Doses: ',
-            text: session.elementAt(index)['available_capacity'].toString(),
+            text: availableDoses,
             color: globalFunctions.getColorFromAvailability(
-                availabilityStr:
-                    session.elementAt(index)['available_capacity'].toString()),
+                availabilityStr: availableDoses),
           ),
           Row(
             children: <Widget>[
               DisplayResult(
                 header: 'Dose 1: ',
-                text: session
-                        .elementAt(index)['available_capacity_dose1']
-                        .toString() ??
-                    '--',
+                text: doses1,
                 color: globalFunctions.getColorFromAvailability(
-                    availabilityStr: session
-                        .elementAt(index)['available_capacity_dose1']
-                        .toString()),
+                  availabilityStr: doses1,
+                ),
               ),
-              SizedBox(width: 10),
               DisplayResult(
                 header: 'Dose 2: ',
-                text: session
-                        .elementAt(index)['available_capacity_dose2']
-                        .toString() ??
-                    '--',
+                text: doses2,
                 color: globalFunctions.getColorFromAvailability(
-                    availabilityStr: session
-                        .elementAt(index)['available_capacity_dose2']
-                        .toString()),
+                  availabilityStr: doses2,
+                ),
               ),
             ],
           ),
