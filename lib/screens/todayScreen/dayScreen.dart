@@ -25,6 +25,7 @@ class _DayScreenState extends State<DayScreen> {
   DatabaseProvider _databaseProvider;
   final ScrollController _scrollController = ScrollController();
   String selectedVaccine = CommonData.defaultVaccineType;
+  String selectedAge = CommonData.defaultVaccineType;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,12 @@ class _DayScreenState extends State<DayScreen> {
                 onChangeEvent: setVaccineType,
                 hintText: CommonData.vaccineHintText,
               ),
+              GenericTypeDropDown(
+                list: _databaseProvider.ageList,
+                value: selectedAge,
+                onChangeEvent: setAge,
+                hintText: CommonData.ageSelectionHint,
+              ),
               Divider(
                 height: 15,
                 thickness: 1,
@@ -77,6 +84,7 @@ class _DayScreenState extends State<DayScreen> {
                         districtName: item['districtName'],
                         isToday: widget.isToday,
                         vaccineSelected: selectedVaccine,
+                        ageSelected: selectedAge,
                       );
                     },
                   ),
@@ -99,4 +107,5 @@ class _DayScreenState extends State<DayScreen> {
   }
 
   void setVaccineType(String value) => setState(() => selectedVaccine = value);
+  void setAge(String value) => setState(() => selectedAge = value);
 }

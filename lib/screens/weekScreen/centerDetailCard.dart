@@ -1,3 +1,4 @@
+import 'package:cowin_track_availability/global_functions.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cowin_track_availability/interface/displayResult.dart';
@@ -5,9 +6,9 @@ import 'package:cowin_track_availability/interface/displayResult.dart';
 class CenterDetailCard extends StatelessWidget {
   final Map center;
   final List session;
+  final GlobalFunctions globalFunctions = GlobalFunctions();
 
-  const CenterDetailCard(
-      {@required this.center, Key key, @required this.session})
+  CenterDetailCard({@required this.center, Key key, @required this.session})
       : super(key: key);
 
   @override
@@ -63,12 +64,36 @@ class CenterDetailCard extends StatelessWidget {
           DisplayResult(
             header: 'Available Doses: ',
             text: session.elementAt(index)['available_capacity'].toString(),
-            color: int.tryParse(session
-                        .elementAt(index)['available_capacity']
-                        .toString()) <
-                    10
-                ? Colors.deepOrange[600]
-                : Colors.green[800],
+            color: globalFunctions.getColorFromAvailability(
+                availabilityStr:
+                    session.elementAt(index)['available_capacity'].toString()),
+          ),
+          Row(
+            children: <Widget>[
+              DisplayResult(
+                header: 'Dose 1: ',
+                text: session
+                        .elementAt(index)['available_capacity_dose1']
+                        .toString() ??
+                    '--',
+                color: globalFunctions.getColorFromAvailability(
+                    availabilityStr: session
+                        .elementAt(index)['available_capacity_dose1']
+                        .toString()),
+              ),
+              SizedBox(width: 10),
+              DisplayResult(
+                header: 'Dose 2: ',
+                text: session
+                        .elementAt(index)['available_capacity_dose2']
+                        .toString() ??
+                    '--',
+                color: globalFunctions.getColorFromAvailability(
+                    availabilityStr: session
+                        .elementAt(index)['available_capacity_dose2']
+                        .toString()),
+              ),
+            ],
           ),
           DisplayResult(
             header: 'Min Age Limit: ',

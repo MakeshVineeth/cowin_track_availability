@@ -9,6 +9,8 @@ class CommonData {
   static final String logoAsset = 'assets/vaccine.png';
   static final String vaccineJsonUrl =
       'https://raw.githubusercontent.com/MakeshVineeth/cowin_track_availability/master/assets/jsonWeb.json';
+  static final String ageJsonUrl =
+      'https://raw.githubusercontent.com/MakeshVineeth/cowin_track_availability/master/assets/jsonAge.json';
 
   static final String stateTable = 'States';
   static final String userTable = 'UserChoice';
@@ -21,10 +23,13 @@ class CommonData {
 
   static final double smallFont = 15.0;
   static final double outerPadding = 10.0;
-  static final String defaultVaccineType = 'ANY';
+  static final String defaultVaccineType =
+      'ANY'; // Also used as Common type for any list.
   static final String aarogyaSetu = 'nic.goi.aarogyasetu';
   static final String coWin = 'com.cowinapp.app';
   static final String vaccineHintText = 'Vaccine Type: ';
+  static final String ageSelectionHint = 'Select Age: ';
+  static final String agePref = 'age_pref';
   static final String dateFormat = 'dd-MM-yyyy';
 
   static final String versionPref = 'versionPref';

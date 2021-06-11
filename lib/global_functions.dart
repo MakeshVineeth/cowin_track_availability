@@ -125,4 +125,10 @@ class GlobalFunctions {
       return true;
     }
   }
+
+  Color getColorFromAvailability({@required String availabilityStr}) {
+    return int.tryParse(availabilityStr) < 10
+        ? Colors.deepOrange[600]
+        : Colors.green[800];
+  }
 }

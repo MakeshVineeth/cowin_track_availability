@@ -1,11 +1,13 @@
+import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/displayResult.dart';
 import 'package:flutter/material.dart';
 
 class DetailItem extends StatelessWidget {
   final Map map;
   final bool showDivider;
+  final GlobalFunctions globalFunctions = GlobalFunctions();
 
-  const DetailItem({@required this.map, Key key, this.showDivider = true})
+  DetailItem({@required this.map, Key key, this.showDivider = true})
       : super(key: key);
 
   @override
@@ -25,9 +27,25 @@ class DetailItem extends StatelessWidget {
         DisplayResult(
           text: map['available_capacity'].toString(),
           header: 'Available Doses: ',
-          color: int.tryParse(map['available_capacity'].toString()) < 10
-              ? Colors.deepOrange[600]
-              : Colors.green[800],
+          color: globalFunctions.getColorFromAvailability(
+              availabilityStr: '${map['available_capacity']}'),
+        ),
+        Row(
+          children: [
+            DisplayResult(
+              text: map['available_capacity_dose1'].toString() ?? '--',
+              header: 'Dose 1: ',
+              color: globalFunctions.getColorFromAvailability(
+                  availabilityStr: '${map['available_capacity']}'),
+            ),
+            SizedBox(width: 10),
+            DisplayResult(
+              text: map['available_capacity_dose2'].toString() ?? '--',
+              header: 'Dose 2: ',
+              color: globalFunctions.getColorFromAvailability(
+                  availabilityStr: '${map['available_capacity']}'),
+            ),
+          ],
         ),
         DisplayResult(
           text: map['vaccine'].toString(),

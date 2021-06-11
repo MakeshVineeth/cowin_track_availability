@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/notAvailableWidget.dart';
@@ -15,6 +16,7 @@ class CentresList extends StatefulWidget {
   final String districtName;
   final bool isToday;
   final String vaccineSelected;
+  final String ageSelected;
 
   const CentresList({
     @required this.districtID,
@@ -23,6 +25,7 @@ class CentresList extends StatefulWidget {
     @required this.districtName,
     @required this.isToday,
     @required this.vaccineSelected,
+    @required this.ageSelected,
     Key key,
   }) : super(key: key);
 
@@ -137,15 +140,28 @@ class _CentresListState extends State<CentresList> {
 
       mapTemp.forEach((element) {
         Map map = element;
+
+        // Check Vaccine Type.
         String vaccine =
             map['vaccine'].toString().trim().replaceAll(' ', '_').toLowerCase();
         String defaultVaccine = CommonData.defaultVaccineType.toLowerCase();
-        String count = map['available_capacity'].toString() ?? '0';
 
+        String count = map['available_capacity'].toString() ?? '0';
         if (count != '0' &&
             (vaccine.contains(vaccineSelected) ||
-                vaccineSelected.contains(defaultVaccine)))
-          _centresList.add(map);
+                vaccineSelected.contains(defaultVaccine))) {
+          // Compare ages with the common type.
+          if (widget.ageSelected.contains(CommonData.defaultVaccineType))
+            _centresList.add(map);
+          else {
+            // Check Ages based on user selection.
+            String ageInSessionStr = map['min_age_limit'].toString().trim();
+            int ageInSession = int.tryParse(ageInSessionStr);
+            int userSelectedAge = int.tryParse(widget.ageSelected);
+
+            if (userSelectedAge >= ageInSession) _centresList.add(map);
+          }
+        }
       });
     } catch (_) {}
   }

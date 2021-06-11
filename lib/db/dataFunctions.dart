@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
 import 'package:cowin_track_availability/global_functions.dart';
-import 'package:meta/meta.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DataFunctions {
   final GlobalFunctions globalFunctions = GlobalFunctions();
@@ -18,11 +19,15 @@ class DataFunctions {
         version: 1,
       );
 
-      List<String> vaccinesList = await getVaccines();
+      List<String> vaccinesList =
+          await getList(url: CommonData.vaccineJsonUrl, key: 'vaccine');
+      List<String> ageList =
+          await getList(url: CommonData.ageJsonUrl, key: 'age');
 
       return DatabaseProvider(
         database: db,
         vaccinesList: vaccinesList,
+        ageList: ageList,
       );
     } catch (_) {
       return null;
@@ -160,7 +165,8 @@ class DataFunctions {
       if (await isTableNotExists(CommonData.userTable, database)) return;
 
       int sameDistrictCount = Sqflite.firstIntValue(await database.rawQuery(
-          "SELECT COUNT(*) FROM ${CommonData.userTable} WHERE districtID=$districtID")) ?? 0;
+              "SELECT COUNT(*) FROM ${CommonData.userTable} WHERE districtID=$districtID")) ??
+          0;
 
       // If sameDistrictCount is Zero, then it is unique user location.
       if (sameDistrictCount == 0)
@@ -215,18 +221,18 @@ class DataFunctions {
     }
   }
 
-  Future<List<String>> getVaccines() async {
+  Future<List<String>> getList(
+      {@required String url, @required String key}) async {
     try {
       // get vaccines list
-      Response _res =
-          await globalFunctions.getWebResponse(CommonData.vaccineJsonUrl);
+      Response _res = await globalFunctions.getWebResponse(url);
 
       if (_res.statusCode != 200 || _res == null)
         return [CommonData.defaultVaccineType];
 
       Map<String, String> data =
           Map<String, String>.from(json.decode(_res.body));
-      String vaccineCombinedList = data['vaccine'];
+      String vaccineCombinedList = data[key];
       return vaccineCombinedList.split(',');
     } catch (_) {
       return [CommonData.defaultVaccineType];
