@@ -1,5 +1,6 @@
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
+import 'package:cowin_track_availability/interface/batteryWarning.dart';
 import 'package:cowin_track_availability/interface/fade_indexed_stack.dart';
 import 'package:cowin_track_availability/interface/markdown.dart';
 import 'package:cowin_track_availability/interface/placeholderScaffold.dart';
@@ -35,19 +36,26 @@ class _HomeState extends State<Home> {
 
     // To Display Changelog
     _globalFunctions.isAppNewVersion().then((value) async {
-      String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
-      showDialog(
-        context: context,
-        builder: (context) => MarkDownView(changelog: changelog),
-      );
+      if (value) {
+        String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
+        final pref = await SharedPreferences.getInstance();
+        pref.setDouble(
+            CommonData.versionPref, double.tryParse(CommonData.appVer));
 
-      final pref = await SharedPreferences.getInstance();
-      pref.setDouble(
-          CommonData.versionPref, double.tryParse(CommonData.appVer));
+        final route = MaterialPageRoute(
+            builder: (context) => MarkDownView(changelog: changelog));
+        Navigator.push(context, route);
+      }
     });
 
     // To display native updater.
     _globalFunctions.updater();
+
+    // Check battery optimization.
+    _globalFunctions.batteryOptimizationCheck().then((value) async {
+      if (!value && await _globalFunctions.getBatteryPref())
+        showDialog(context: context, builder: (context) => BatteryWarning());
+    });
 
     super.initState();
   }

@@ -122,7 +122,7 @@ class _WeekScreenState extends State<WeekScreen> {
           centres.add(NotAvailableWidget('${district['districtName']}'));
 
         centres.sort((a, b) =>
-            a.runtimeType.toString().compareTo(b.runtimeType.toString()));
+            b.runtimeType.toString().compareTo(a.runtimeType.toString()));
       }
     } catch (_) {}
   }

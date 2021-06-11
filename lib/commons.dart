@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
-  static final String appVer = '1.0.1';
+  static final String appVer = '1.1';
   static final String appDesc =
       'An Open-Source App that can track Vaccines in India using CoWIN Public APIs. Supports Notifications and Dark Theme based on System Default Theme. Retrieves data directly from the CoWIN Public APIs.';
   static final String logoAsset = 'assets/vaccine.png';
@@ -29,6 +29,7 @@ class CommonData {
 
   static final String versionPref = 'versionPref';
   static final String versionAsset = 'assets/version.txt';
+  static final String batteryOptimizationPref = 'first_launch';
 
   static final Map<String, int> intervals = {
     '15 min': 15,

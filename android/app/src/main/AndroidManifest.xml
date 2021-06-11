@@ -11,7 +11,9 @@
    <application
         tools:replace="android:label"
         android:label="CoWIN Track Availability"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

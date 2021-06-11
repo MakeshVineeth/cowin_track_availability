@@ -1,3 +1,4 @@
+import 'package:battery_optimization/battery_optimization.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,8 +78,8 @@ class GlobalFunctions {
 
   Future<bool> isAppNewVersion() async {
     try {
-      double version =
-          double.tryParse(await rootBundle.loadString(CommonData.versionAsset));
+      String verStr = await rootBundle.loadString(CommonData.versionAsset);
+      double version = double.tryParse(verStr);
 
       if (version == null) return false;
 
@@ -104,5 +105,24 @@ class GlobalFunctions {
             .then((_) => InAppUpdate.completeFlexibleUpdate());
       }
     } catch (_) {}
+  }
+
+  Future<bool> batteryOptimizationCheck() async {
+    try {
+      bool ignored = await BatteryOptimization.isIgnoringBatteryOptimizations();
+      return ignored;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> getBatteryPref() async {
+    try {
+      final pref = await SharedPreferences.getInstance();
+      bool isFirst = pref.getBool(CommonData.batteryOptimizationPref) ?? true;
+      return isFirst;
+    } catch (_) {
+      return true;
+    }
   }
 }

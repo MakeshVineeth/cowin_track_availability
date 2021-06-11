@@ -62,6 +62,7 @@ class _ThemeDialogState extends State<ThemeDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: shape,
+      title: Text('Choose Theme'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
