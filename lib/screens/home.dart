@@ -1,12 +1,14 @@
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/fade_indexed_stack.dart';
+import 'package:cowin_track_availability/interface/markdown.dart';
 import 'package:cowin_track_availability/interface/placeholderScaffold.dart';
 import 'package:cowin_track_availability/interface/themeDialog.dart';
 import 'package:cowin_track_availability/screens/todayScreen/dayScreen.dart';
 import 'package:cowin_track_availability/screens/user_locations.dart';
 import 'package:cowin_track_availability/screens/weekScreen/weekScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +32,23 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     futureIndex = getLastSelectedTab();
+
+    // To Display Changelog
+    _globalFunctions.isAppNewVersion().then((value) async {
+      String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
+      showDialog(
+        context: context,
+        builder: (context) => MarkDownView(changelog: changelog),
+      );
+
+      final pref = await SharedPreferences.getInstance();
+      pref.setDouble(
+          CommonData.versionPref, double.tryParse(CommonData.appVer));
+    });
+
+    // To display native updater.
+    _globalFunctions.updater();
+
     super.initState();
   }
 

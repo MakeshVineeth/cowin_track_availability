@@ -123,14 +123,13 @@ class _AlertScreenState extends State<AlertScreen> {
               onChangeEvent: setInterval,
               hintText: 'Select Time',
             ),
-            SizedBox(height: 5),
             GenericTypeDropDown(
               list: _databaseProvider.vaccinesList,
               value: selectedVaccine,
               onChangeEvent: setVaccineType,
               hintText: CommonData.vaccineHintText,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             SwitchListTile(
               title: Text('Enable Notifications'),
               secondary: Icon(Icons.notifications_active_outlined),

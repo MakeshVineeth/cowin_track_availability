@@ -27,6 +27,9 @@ class CommonData {
   static final String vaccineHintText = 'Vaccine Type: ';
   static final String dateFormat = 'dd-MM-yyyy';
 
+  static final String versionPref = 'versionPref';
+  static final String versionAsset = 'assets/version.txt';
+
   static final Map<String, int> intervals = {
     '15 min': 15,
     '30 min': 30,

@@ -1,9 +1,12 @@
 import 'package:cowin_track_availability/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_apps/device_apps.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 class GlobalFunctions {
   final Duration _timeOutDur = const Duration(minutes: 1);
@@ -69,6 +72,37 @@ class GlobalFunctions {
       else
         launchURL(
             'https://play.google.com/store/apps/details?id=' + packageName);
+    } catch (_) {}
+  }
+
+  Future<bool> isAppNewVersion() async {
+    try {
+      double version =
+          double.tryParse(await rootBundle.loadString(CommonData.versionAsset));
+
+      if (version == null) return false;
+
+      final pref = await SharedPreferences.getInstance();
+      double current = pref.getDouble(CommonData.versionPref) ?? null;
+
+      if (current == null || current > version)
+        return true;
+      else
+        return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> updater() async {
+    try {
+      AppUpdateInfo appUpdateInfo = await InAppUpdate.checkForUpdate();
+
+      if (appUpdateInfo.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
+        InAppUpdate.startFlexibleUpdate()
+            .then((_) => InAppUpdate.completeFlexibleUpdate());
+      }
     } catch (_) {}
   }
 }

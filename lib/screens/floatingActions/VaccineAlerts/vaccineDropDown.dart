@@ -24,7 +24,7 @@ class _GenericTypeDropDownState extends State<GenericTypeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           Text(
@@ -46,11 +46,12 @@ class _GenericTypeDropDownState extends State<GenericTypeDropDown> {
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? 3
-                        : 0),
+                  horizontal: 8,
+                  vertical:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? 1
+                          : 0,
+                ),
                 child: DropdownButtonHideUnderline(
                   child: _dropDownBtnGeneric(
                     value: widget.value,

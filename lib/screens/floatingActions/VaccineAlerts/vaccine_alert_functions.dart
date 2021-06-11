@@ -9,6 +9,18 @@ import 'package:sqflite/sqflite.dart';
 
 class VaccineAlertClass {
   final DataFunctions _dataFunctions = DataFunctions();
+  static const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'vaccine_alert_1',
+    'makesh_tech_vaccine_tracker',
+    'Displays Vaccine Alerts!',
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: false,
+  );
+
+  static const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
 
   Future<void> getAlert({Database database}) async {
     try {
@@ -64,17 +76,6 @@ class VaccineAlertClass {
       }
 
       if (_available.isNotEmpty) {
-        const AndroidNotificationDetails androidPlatformChannelSpecifics =
-            AndroidNotificationDetails(
-          'vaccine_alert_1',
-          'makesh_tech_vaccine_tracker',
-          'Displays Vaccine Alerts!',
-          importance: Importance.max,
-          priority: Priority.high,
-          showWhen: false,
-        );
-        const NotificationDetails platformChannelSpecifics =
-            NotificationDetails(android: androidPlatformChannelSpecifics);
         await flutterLocalNotificationsPlugin.show(
           0,
           'Vaccine Available!',
