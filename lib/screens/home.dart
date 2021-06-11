@@ -2,6 +2,7 @@ import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/fade_indexed_stack.dart';
 import 'package:cowin_track_availability/interface/placeholderScaffold.dart';
+import 'package:cowin_track_availability/interface/themeDialog.dart';
 import 'package:cowin_track_availability/screens/todayScreen/dayScreen.dart';
 import 'package:cowin_track_availability/screens/user_locations.dart';
 import 'package:cowin_track_availability/screens/weekScreen/weekScreen.dart';
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
     try {
       final pref = await SharedPreferences.getInstance();
       await pref.setInt('tab_index', index);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   @override
@@ -110,6 +111,10 @@ class _HomeState extends State<Home> {
         child: Icon(icon),
         label: label,
         onTap: function,
+        foregroundColor: Colors.black,
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
       );
 
   List<SpeedDialChild> _loadSpeedDialList() {
@@ -138,9 +143,14 @@ class _HomeState extends State<Home> {
         Icons.launch_outlined,
       ),
       speedDialItem(
+        'Change Theme',
+        () => showDialog(context: context, builder: (context) => ThemeDialog()),
+        Icons.lightbulb_outline_rounded,
+      ),
+      speedDialItem(
         'About',
         () => _globalFunctions.displayAbout(context),
-        Icons.lightbulb_outline_rounded,
+        Icons.info_outline_rounded,
       ),
     ];
 

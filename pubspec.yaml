@@ -25,6 +25,7 @@ dependencies:
   shared_preferences: ^2.0.6
   sqflite: ^2.0.0+3
   url_launcher: ^6.0.3
+  adaptive_theme: ^2.2.0
 
 dev_dependencies:
   flutter_test:

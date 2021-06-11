@@ -23,7 +23,7 @@ class _WeekScreenState extends State<WeekScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
+    _databaseProvider = context.watch<DatabaseProvider>();
 
     return FutureBuilder(
       future: getData(),
@@ -79,10 +79,10 @@ class _WeekScreenState extends State<WeekScreen> {
         );
 
         if (map.isEmpty)
-          centres.add(NotAvailableWidget(district['districtName']));
+          centres.add(NotAvailableWidget('${district['districtName']}'));
 
-        // map contains all the centres in a district.
-        List<CenterDetailCard> allCenters = List.empty();
+        List<Widget> allCenters = [];
+        // This map contains all the centres in a district.
         map.forEach((eachCenter) {
           List sessions = eachCenter['sessions'];
           List filterZeroCapacity = [];
@@ -119,7 +119,7 @@ class _WeekScreenState extends State<WeekScreen> {
         if (allCenters.isNotEmpty)
           centres.addAll(allCenters);
         else
-          centres.add(NotAvailableWidget(district['districtName']));
+          centres.add(NotAvailableWidget('${district['districtName']}'));
       }
     } catch (_) {}
   }

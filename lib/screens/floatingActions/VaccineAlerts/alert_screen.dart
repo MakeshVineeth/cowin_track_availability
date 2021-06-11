@@ -76,11 +76,8 @@ class _AlertScreenState extends State<AlertScreen> {
 
   Future<void> onFetch(String taskId) async {
     try {
-      if (taskId == 'flutter_background_fetch') {
-        await VaccineAlertClass()
-            .getAlert(database: _databaseProvider?.database);
-        BackgroundFetch.finish(taskId);
-      }
+      await VaccineAlertClass().getAlert(database: _databaseProvider?.database);
+      BackgroundFetch.finish(taskId);
     } catch (_) {}
   }
 
@@ -92,7 +89,9 @@ class _AlertScreenState extends State<AlertScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
+    _databaseProvider = ReadContext(context).read<DatabaseProvider>();
+    bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
       appBar: AppBar(
@@ -104,14 +103,16 @@ class _AlertScreenState extends State<AlertScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'You\'ll be alerted for availability of Vaccines in these following locations:',
+              isPortrait
+                  ? 'You\'ll be alerted for availability of Vaccines in these following locations:'
+                  : 'You\'ll be alerted for vaccine availability in the Locations added by you.',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
               ),
               softWrap: true,
             ),
             SizedBox(height: 10),
-            if (MediaQuery.of(context).orientation == Orientation.portrait)
+            if (isPortrait)
               Expanded(
                 child: UserSelectionsView(database: _databaseProvider.database),
               ),

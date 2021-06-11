@@ -1,11 +1,12 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dbWrapper.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/alert_screen.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccine_alert_functions.dart';
 import 'package:cowin_track_availability/screens/home.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -45,17 +46,22 @@ class MaterialRootWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataBaseWrapper(
-      child: MaterialApp(
-        theme: CommonData.getTheme(context, Brightness.light),
-        darkTheme: CommonData.getTheme(context, Brightness.dark),
-        themeMode: ThemeMode.system,
-        title: CommonData.appTitle,
-        initialRoute: '/',
-        routes: {
-          '/': (context) => Home(),
-          '/alert': (context) => AlertScreen(),
-        },
-        debugShowCheckedModeBanner: false,
+      child: AdaptiveTheme(
+        initial: AdaptiveThemeMode.system,
+        light: CommonData.getTheme(context, Brightness.light),
+        dark: CommonData.getTheme(context, Brightness.dark),
+        builder: (theme, darkTheme) => MaterialApp(
+          theme: theme,
+          darkTheme: darkTheme,
+          themeMode: ThemeMode.system,
+          title: CommonData.appTitle,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => Home(),
+            '/alert': (context) => AlertScreen(),
+          },
+          debugShowCheckedModeBanner: false,
+        ),
       ),
     );
   }

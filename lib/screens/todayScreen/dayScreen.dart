@@ -6,8 +6,8 @@ import 'package:cowin_track_availability/interface/placeholdSpinner.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccineDropDown.dart';
 import 'package:cowin_track_availability/screens/todayScreen/centresList.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
+import 'package:provider/provider.dart';
 
 class DayScreen extends StatefulWidget {
   final bool isToday;
@@ -28,7 +28,7 @@ class _DayScreenState extends State<DayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
+    _databaseProvider = context.watch<DatabaseProvider>();
 
     return FutureBuilder(
       future: _loadLocations(),

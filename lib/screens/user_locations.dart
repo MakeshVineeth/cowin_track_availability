@@ -19,8 +19,9 @@ class _UserLocationsState extends State<UserLocations> {
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
-    _selectedOptionProvider = Provider.of<SelectedOptionProvider>(context);
+    _databaseProvider = context.watch<DatabaseProvider>();
+    _selectedOptionProvider =
+        ReadContext(context).read<SelectedOptionProvider>();
 
     return FutureBuilder(
       future: process(),

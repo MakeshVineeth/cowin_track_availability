@@ -45,15 +45,17 @@ class _LocationSelectorState extends State<LocationSelector>
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
-    _selectedOptionProvider = Provider.of<SelectedOptionProvider>(context);
     _animationController.forward();
+    _databaseProvider = ReadContext(context).read<DatabaseProvider>();
+    _selectedOptionProvider =
+        ReadContext(context).read<SelectedOptionProvider>();
 
     return FadeScaleTransition(
       animation: _animationController,
       child: AlertDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(CommonData.radius)),
+          borderRadius: BorderRadius.circular(CommonData.radius),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -23,9 +23,9 @@ class _DistrictSelectionState extends State<DistrictSelection> {
 
   @override
   Widget build(BuildContext context) {
-    _databaseProvider = Provider.of<DatabaseProvider>(context);
+    _databaseProvider = ReadContext(context).read<DatabaseProvider>();
     _selectedOptionProvider =
-        Provider.of<SelectedOptionProvider>(context, listen: true);
+        ReadContext(context).read<SelectedOptionProvider>();
 
     return LocationsDropDown(
       futureMethod: loadData(),
