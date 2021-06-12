@@ -22,6 +22,7 @@ class _AlertScreenState extends State<AlertScreen> {
   DatabaseProvider _databaseProvider;
   String selectedVaccine = CommonData.defaultVaccineType;
   String selectedInterval = CommonData.intervals.keys.elementAt(0);
+  String selectedAge = CommonData.defaultVaccineType;
 
   @override
   void initState() {
@@ -100,6 +101,7 @@ class _AlertScreenState extends State<AlertScreen> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
@@ -114,20 +116,35 @@ class _AlertScreenState extends State<AlertScreen> {
             SizedBox(height: 10),
             if (isPortrait)
               Expanded(
+                flex: 2,
                 child: UserSelectionsView(database: _databaseProvider.database),
               ),
             SizedBox(height: 10),
-            GenericTypeDropDown(
-              list: CommonData.intervals.keys.toList(),
-              value: selectedInterval,
-              onChangeEvent: setInterval,
-              hintText: 'Select Time',
-            ),
-            GenericTypeDropDown(
-              list: _databaseProvider.vaccinesList,
-              value: selectedVaccine,
-              onChangeEvent: setVaccineType,
-              hintText: CommonData.vaccineHintText,
+            Expanded(
+              child: ListView(
+                physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                children: [
+                  GenericTypeDropDown(
+                    list: CommonData.intervals.keys.toList(),
+                    value: selectedInterval,
+                    onChangeEvent: setInterval,
+                    hintText: 'Select Time',
+                  ),
+                  GenericTypeDropDown(
+                    list: _databaseProvider.vaccinesList,
+                    value: selectedVaccine,
+                    onChangeEvent: setVaccineType,
+                    hintText: CommonData.vaccineHintText,
+                  ),
+                  GenericTypeDropDown(
+                    list: _databaseProvider.ageList,
+                    value: selectedAge,
+                    onChangeEvent: setAge,
+                    hintText: CommonData.ageSelectionHint,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 8),
             SwitchListTile(
@@ -153,12 +170,18 @@ class _AlertScreenState extends State<AlertScreen> {
     await prefs.setBool(prefKey, status);
     await prefs.setString(AlertScreen.vaccinePrefs, selectedVaccine);
     await prefs.setString(intervalPref, selectedInterval);
+    await prefs.setString(CommonData.agePref, selectedAge);
 
     if (mounted) setState(() => _enabledStatus = status);
   }
 
   void setInterval(String value) {
     setState(() => selectedInterval = value);
+    changeSwitchStatus(false);
+  }
+
+  void setAge(String value) {
+    setState(() => selectedAge = value);
     changeSwitchStatus(false);
   }
 }

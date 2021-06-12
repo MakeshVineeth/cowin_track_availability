@@ -20,6 +20,7 @@ class _WeekScreenState extends State<WeekScreen> {
   List<Widget> centres = [];
   String selectedVaccine = CommonData.defaultVaccineType;
   final ScrollController _scrollController = ScrollController();
+  String selectedAge = CommonData.defaultVaccineType;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class _WeekScreenState extends State<WeekScreen> {
                 value: selectedVaccine,
                 onChangeEvent: setVaccineType,
                 hintText: CommonData.vaccineHintText,
+              ),
+              GenericTypeDropDown(
+                list: _databaseProvider.ageList,
+                value: selectedAge,
+                onChangeEvent: setAge,
+                hintText: CommonData.ageSelectionHint,
               ),
               Divider(
                 height: 15,
@@ -103,9 +110,21 @@ class _WeekScreenState extends State<WeekScreen> {
               String defaultVaccine =
                   CommonData.defaultVaccineType.toLowerCase();
 
+              // Checks for vaccine in session with the one user selected. Or it should Any.
               if (vaccineInSession.contains(selectedVaccineFormatted) ||
-                  selectedVaccineFormatted.contains(defaultVaccine))
-                filterZeroCapacity.add(eachSession);
+                  selectedVaccineFormatted.contains(defaultVaccine)) {
+                // Check Ages based on user selection.
+                if (selectedAge.contains(CommonData.defaultVaccineType))
+                  filterZeroCapacity.add(eachSession);
+                else {
+                  String ageInSessionStr =
+                      eachSession['min_age_limit'].toString().trim();
+                  int minAgeLimit = int.tryParse(ageInSessionStr) ?? 0;
+                  int userSelectedAge = int.tryParse(selectedAge) ?? 0;
+                  if (userSelectedAge >= minAgeLimit)
+                    filterZeroCapacity.add(eachSession);
+                }
+              }
             }
           });
 
@@ -128,4 +147,6 @@ class _WeekScreenState extends State<WeekScreen> {
   }
 
   void setVaccineType(String value) => setState(() => selectedVaccine = value);
+
+  void setAge(String value) => setState(() => selectedAge = value);
 }

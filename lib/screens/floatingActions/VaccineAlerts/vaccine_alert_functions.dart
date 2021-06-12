@@ -1,9 +1,9 @@
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dataFunctions.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
+import 'package:cowin_track_availability/main.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/alert_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:cowin_track_availability/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,7 +33,11 @@ class VaccineAlertClass {
       final prefs = await SharedPreferences.getInstance();
       String vaccineSelected = prefs.getString(AlertScreen.vaccinePrefs) ??
           CommonData.defaultVaccineType;
-      vaccineSelected = vaccineSelected.replaceAll(' ', '_').toLowerCase();
+      String selectedAge = prefs.getString(CommonData.agePref).trim() ??
+          CommonData.defaultVaccineType;
+
+      vaccineSelected =
+          vaccineSelected.trim().replaceAll(' ', '_').toLowerCase();
       List<String> _available = [];
 
       final List<Map> userLocations =
@@ -65,8 +69,19 @@ class VaccineAlertClass {
                   CommonData.defaultVaccineType.toLowerCase();
 
               if (vaccineInSession.contains(vaccineSelected) ||
-                  vaccineSelected.contains(defaultVaccine))
-                filterZeroCapacity.add(eachSession);
+                  vaccineSelected.contains(defaultVaccine)) {
+                // Check Ages based on user selection.
+                if (selectedAge.contains(CommonData.defaultVaccineType))
+                  filterZeroCapacity.add(eachSession);
+                else {
+                  String ageInSessionStr =
+                      eachSession['min_age_limit'].toString().trim();
+                  int minAgeLimit = int.tryParse(ageInSessionStr) ?? 0;
+                  int userSelectedAge = int.tryParse(selectedAge) ?? 0;
+                  if (userSelectedAge >= minAgeLimit)
+                    filterZeroCapacity.add(eachSession);
+                }
+              }
             }
           });
 

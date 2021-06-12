@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cowin_track_availability/db/dataFunctions.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
 import 'package:cowin_track_availability/db/selectedOptionProvider.dart';
@@ -7,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class DataBaseWrapper extends StatefulWidget {
   final Widget child;
+
   const DataBaseWrapper({@required this.child});
 
   @override
@@ -15,16 +18,28 @@ class DataBaseWrapper extends StatefulWidget {
 
 class _DataBaseWrapperState extends State<DataBaseWrapper> {
   DataFunctions _dataFunctions = DataFunctions();
+  DatabaseProvider _databaseProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // periodically runs the database update function to refresh the UI for latest data.
+    Timer.periodic(const Duration(minutes: 5), (_) {
+      if (_databaseProvider != null) _databaseProvider.update();
+    });
+  }
+
+  Future<void> getDatabaseProvider() async =>
+      _databaseProvider = await _dataFunctions.loadDatabase();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _dataFunctions.loadDatabase(),
+      future: getDatabaseProvider(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
-          DatabaseProvider _databaseProvider = snapshot.data;
-
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<SelectedOptionProvider>(

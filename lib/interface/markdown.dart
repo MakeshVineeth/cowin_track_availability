@@ -13,10 +13,10 @@ class MarkDownView extends StatelessWidget {
         title: Text('What\'s New'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
                 Expanded(
@@ -24,13 +24,16 @@ class MarkDownView extends StatelessWidget {
                     data: changelog,
                     physics: AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics()),
+                    selectable: true,
+                    styleSheet: MarkdownStyleSheet(
+                        h4: TextStyle(color: Colors.transparent)),
                   ),
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Text(
                       'Continue',
                     ),

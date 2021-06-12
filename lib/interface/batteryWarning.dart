@@ -25,8 +25,10 @@ class BatteryWarning extends StatelessWidget {
           child: Text('No Need'),
         ),
         TextButton(
-          onPressed: () =>
-              BatteryOptimization.openBatteryOptimizationSettings(),
+          onPressed: () {
+            Navigator.pop(context);
+            BatteryOptimization.openBatteryOptimizationSettings();
+          },
           child: Text('Open Settings'),
         ),
       ],

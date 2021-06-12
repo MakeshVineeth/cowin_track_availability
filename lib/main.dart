@@ -11,8 +11,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final AdaptiveThemeMode savedTheme = await AdaptiveTheme.getThemeMode();
 
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -21,7 +22,7 @@ void main() {
       InitializationSettings(android: initializationSettingsAndroid);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  runApp(MaterialRootWidget());
+  runApp(MaterialRootWidget(initialTheme: savedTheme));
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
@@ -43,6 +44,10 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
 }
 
 class MaterialRootWidget extends StatelessWidget {
+  final AdaptiveThemeMode initialTheme;
+
+  const MaterialRootWidget({this.initialTheme});
+
   @override
   Widget build(BuildContext context) {
     return DataBaseWrapper(
