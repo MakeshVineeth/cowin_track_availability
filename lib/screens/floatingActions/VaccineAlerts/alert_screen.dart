@@ -37,12 +37,15 @@ class _AlertScreenState extends State<AlertScreen> {
         CommonData.defaultVaccineType;
     String interval =
         prefs.getString(intervalPref) ?? CommonData.intervals.keys.elementAt(0);
+    String ageSelection =
+        prefs.getString(CommonData.agePref) ?? CommonData.defaultVaccineType;
 
     if (mounted)
       setState(() {
         _enabledStatus = getEnabledStatus;
         selectedVaccine = getVaccine;
         selectedInterval = interval;
+        selectedAge = ageSelection;
       });
   }
 
@@ -160,17 +163,17 @@ class _AlertScreenState extends State<AlertScreen> {
   }
 
   void changeSwitchStatus(bool status) async {
-    if (status)
-      await initPlatformState();
-    else
-      await BackgroundFetch.stop().then(
-          (int status) => print('VaccineAlertService: Stopped.: $status'));
-
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(prefKey, status);
     await prefs.setString(AlertScreen.vaccinePrefs, selectedVaccine);
     await prefs.setString(intervalPref, selectedInterval);
     await prefs.setString(CommonData.agePref, selectedAge);
+
+    if (status)
+      await initPlatformState();
+    else
+      await BackgroundFetch.stop().then(
+          (int status) => print('VaccineAlertService: Stopped.: $status'));
 
     if (mounted) setState(() => _enabledStatus = status);
   }

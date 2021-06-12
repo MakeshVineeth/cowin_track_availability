@@ -9,3 +9,9 @@
 - Bug Fixes.
 - Fix Horizontal Mode Issues.
 - Libraries Updates.
+#### 1
+#### 1
+## UPDATE 1.0
+------
+#### 1
+- Initial Release
