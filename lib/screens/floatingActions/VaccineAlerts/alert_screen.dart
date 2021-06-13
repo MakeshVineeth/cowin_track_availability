@@ -23,6 +23,8 @@ class _AlertScreenState extends State<AlertScreen> {
   String selectedVaccine = CommonData.defaultVaccineType;
   String selectedInterval = CommonData.intervals.keys.elementAt(0);
   String selectedAge = CommonData.defaultVaccineType;
+  static final String intervalDesc =
+      'Set the Time Interval at which the app would like to check for availability.';
 
   @override
   void initState() {
@@ -109,8 +111,8 @@ class _AlertScreenState extends State<AlertScreen> {
           children: [
             Text(
               isPortrait
-                  ? 'You\'ll be alerted for availability of Vaccines in these following locations:'
-                  : 'You\'ll be alerted for vaccine availability in the Locations added by you.',
+                  ? 'You\'ll be alerted for availability of Vaccines in these following locations. $intervalDesc'
+                  : 'You\'ll be alerted for vaccine availability in the Locations added by you. $intervalDesc',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
               ),
@@ -132,7 +134,7 @@ class _AlertScreenState extends State<AlertScreen> {
                     list: CommonData.intervals.keys.toList(),
                     value: selectedInterval,
                     onChangeEvent: setInterval,
-                    hintText: 'Select Time',
+                    hintText: 'Select Interval',
                   ),
                   GenericTypeDropDown(
                     list: _databaseProvider.vaccinesList,
