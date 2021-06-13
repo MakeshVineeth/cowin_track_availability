@@ -17,7 +17,7 @@ An Open-Source app made in Flutter that can track COVID-19 Vaccines in India usi
 <a href='https://play.google.com/store/apps/details?id=com.makeshtech.cowin_track_availability&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 # Support
-Support us by download the app from Play Store and write a 5-star review :slightly_smiling_face:
+Support us by downloading the app from Play Store and write a 5-star review :slightly_smiling_face:
 
 # Attributions
 - Icons made by Freepik from www.flaticon.com
