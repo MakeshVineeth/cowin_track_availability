@@ -48,9 +48,6 @@ class _HomeState extends State<Home> {
       }
     });
 
-    // To display native updater.
-    _globalFunctions.updater();
-
     // Check battery optimization.
     _globalFunctions.batteryOptimizationCheck().then((value) async {
       if (!value && await _globalFunctions.getBatteryPref())

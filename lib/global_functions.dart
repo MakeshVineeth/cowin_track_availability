@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:in_app_update/in_app_update.dart';
 
 class GlobalFunctions {
   final Duration _timeOutDur = const Duration(minutes: 1);
@@ -93,18 +92,6 @@ class GlobalFunctions {
     } catch (_) {
       return false;
     }
-  }
-
-  Future<void> updater() async {
-    try {
-      AppUpdateInfo appUpdateInfo = await InAppUpdate.checkForUpdate();
-
-      if (appUpdateInfo.updateAvailability ==
-          UpdateAvailability.updateAvailable) {
-        InAppUpdate.startFlexibleUpdate()
-            .then((_) => InAppUpdate.completeFlexibleUpdate());
-      }
-    } catch (_) {}
   }
 
   Future<bool> batteryOptimizationCheck() async {
