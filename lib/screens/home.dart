@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: SpeedDial(
               backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Theme.of(context).scaffoldBackgroundColor,
+              foregroundColor: Colors.white,
               animatedIcon: AnimatedIcons.menu_close,
               buttonSize: 60.0,
               animationSpeed: 90,
@@ -127,7 +127,9 @@ class _HomeState extends State<Home> {
   }
 
   _bottomNavItem(IconData icon, String label) => BottomNavigationBarItem(
-        icon: Icon(icon),
+        icon: Icon(
+          icon,
+        ),
         label: label,
       );
 

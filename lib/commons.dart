@@ -5,7 +5,7 @@ class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
   static final String appVer = '1.2';
   static final String appDesc =
-      'An Open-Source App that can track Vaccines in India using CoWIN Public APIs. Supports Notifications and Dark Theme based on System Default Theme. Retrieves data directly from the CoWIN Public APIs.';
+      'An Open-Source App that can track COVID-19 Vaccines in India. Supports Notifications and Light/Dark Themes. Retrieves data directly from the CoWIN Public APIs. You still have to go through CoWIN website in order to book the vaccine slot.';
   static final String logoAsset = 'assets/vaccine.png';
   static final String vaccineJsonUrl =
       'https://raw.githubusercontent.com/MakeshVineeth/cowin_track_availability/master/assets/jsonWeb.json';

@@ -52,6 +52,7 @@ class MaterialRootWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataBaseWrapper(
+      initialTheme: initialTheme,
       child: AdaptiveTheme(
         initial: initialTheme,
         light: CommonData.getTheme(context, Brightness.light),

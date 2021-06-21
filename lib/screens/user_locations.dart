@@ -67,6 +67,7 @@ class _UserLocationsState extends State<UserLocations> {
         padding: const EdgeInsets.all(10.0),
         child: Icon(
           Icons.add,
+          color: Colors.white,
         ),
       ),
     );

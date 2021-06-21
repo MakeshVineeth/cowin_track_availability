@@ -52,11 +52,12 @@ class GlobalFunctions {
       children: <Widget>[
         SizedBox(height: 12),
         Text(
-          'If you\'ve liked our app, please do give us a 5 star rating. It helps us a lot :)',
+          'If you\'ve liked our app, please do give us a 5 star rating. It helps us a lot 😄',
           textAlign: TextAlign.center,
           softWrap: true,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 12.5,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],
