@@ -24,7 +24,7 @@ class _AlertScreenState extends State<AlertScreen> {
   String selectedInterval = CommonData.intervals.keys.elementAt(0);
   String selectedAge = CommonData.defaultVaccineType;
   static final String intervalDesc =
-      'Set the Time Interval at which the app would like to check for availability.';
+      'Select the Time Interval at which the app would like to check for slot availability.';
 
   @override
   void initState() {
