@@ -85,9 +85,6 @@ class _WeekScreenState extends State<WeekScreen> {
           database: _databaseProvider.database,
         );
 
-        if (map.isEmpty)
-          centres.add(NotAvailableWidget('${district['districtName']}'));
-
         List<Widget> allCenters = [];
         // This map contains all the centres in a district.
         map.forEach((eachCenter) {

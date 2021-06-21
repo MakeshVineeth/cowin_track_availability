@@ -1,12 +1,13 @@
 import 'package:battery_optimization/battery_optimization.dart';
 import 'package:cowin_track_availability/commons.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:device_apps/device_apps.dart';
 
 class GlobalFunctions {
   final Duration _timeOutDur = const Duration(minutes: 1);
@@ -36,6 +37,11 @@ class GlobalFunctions {
       url = Uri.encodeFull(url);
       launch(url);
     } catch (_) {}
+  }
+
+  void showPlayStorePage() {
+    final InAppReview inAppReview = InAppReview.instance;
+    inAppReview.openStoreListing();
   }
 
   void displayAbout(BuildContext context) {

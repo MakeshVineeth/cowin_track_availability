@@ -94,6 +94,10 @@ class _HomeState extends State<Home> {
               ),
             ),
             floatingActionButton: SpeedDial(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[800]
+                  : Colors.white,
+              foregroundColor: Theme.of(context).textTheme.bodyText1.color,
               animatedIcon: AnimatedIcons.menu_close,
               buttonSize: 60.0,
               animationSpeed: 90,
@@ -130,16 +134,25 @@ class _HomeState extends State<Home> {
       );
 
   SpeedDialChild speedDialItem(
-          String label, VoidCallback function, IconData icon) =>
-      SpeedDialChild(
-        child: Icon(icon),
-        label: label,
-        onTap: function,
-        foregroundColor: Colors.black,
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-      );
+      String label, VoidCallback function, IconData icon) {
+    bool isLightTheme = Theme.of(context).brightness == Brightness.light;
+    Color fg = isLightTheme ? Colors.black : Colors.white;
+    Color bg = isLightTheme ? Colors.white : Colors.grey[800];
+
+    return SpeedDialChild(
+      child: Icon(
+        icon,
+      ),
+      label: label,
+      onTap: function,
+      labelBackgroundColor: bg,
+      foregroundColor: fg,
+      backgroundColor: bg,
+      labelStyle: TextStyle(
+        color: fg,
+      ),
+    );
+  }
 
   List<SpeedDialChild> _loadSpeedDialList() {
     final List<SpeedDialChild> list1 = [
@@ -170,6 +183,11 @@ class _HomeState extends State<Home> {
         'Change Theme',
         () => showDialog(context: context, builder: (context) => ThemeDialog()),
         Icons.lightbulb_outline_rounded,
+      ),
+      speedDialItem(
+        'Review our App',
+        () => _globalFunctions.showPlayStorePage(),
+        Icons.star_border_outlined,
       ),
       speedDialItem(
         'About',
