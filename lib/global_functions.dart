@@ -2,7 +2,6 @@ import 'package:battery_optimization/battery_optimization.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
@@ -83,13 +82,12 @@ class GlobalFunctions {
 
   Future<bool> isAppNewVersion() async {
     try {
-      String verStr = await rootBundle.loadString(CommonData.versionAsset);
-      double version = double.tryParse(verStr);
+      double version = double.tryParse(CommonData.appVer);
 
       if (version == null) return false;
 
       final pref = await SharedPreferences.getInstance();
-      double current = pref.getDouble(CommonData.versionPref) ?? null;
+      double current = pref.getDouble(CommonData.versionPref);
 
       if (current == null || current > version)
         return true;

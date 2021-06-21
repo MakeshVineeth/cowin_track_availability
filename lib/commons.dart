@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
-  static final String appVer = '1.1';
+  static final String appVer = '1.2';
   static final String appDesc =
       'An Open-Source App that can track Vaccines in India using CoWIN Public APIs. Supports Notifications and Dark Theme based on System Default Theme. Retrieves data directly from the CoWIN Public APIs.';
   static final String logoAsset = 'assets/vaccine.png';
@@ -49,7 +49,7 @@ class CommonData {
   static ThemeData getTheme(BuildContext context, Brightness brightness) {
     bool isDarkTheme = brightness == Brightness.dark;
     Color background = isDarkTheme ? Colors.black : Colors.white;
-    Color primary = isDarkTheme ? Colors.lime : Colors.indigo;
+    Color primary = isDarkTheme ? Colors.lightBlue : Colors.indigo;
 
     return ThemeData(
       appBarTheme: AppBarTheme(

@@ -1,3 +1,11 @@
+## UPDATE 1.2
+------
+- Fix UI related issues.
+- Fix sometimes duplicate location cards appear.
+- Improve dark theme.
+- Add actions to review our app ❤
+#### 1
+#### 1
 ## UPDATE 1.1
 ------
 #### 1

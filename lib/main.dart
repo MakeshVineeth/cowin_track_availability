@@ -13,7 +13,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final AdaptiveThemeMode savedTheme = await AdaptiveTheme.getThemeMode();
+  final AdaptiveThemeMode savedTheme =
+      await AdaptiveTheme.getThemeMode() ?? AdaptiveThemeMode.system;
 
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -52,13 +53,12 @@ class MaterialRootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataBaseWrapper(
       child: AdaptiveTheme(
-        initial: AdaptiveThemeMode.system,
+        initial: initialTheme,
         light: CommonData.getTheme(context, Brightness.light),
         dark: CommonData.getTheme(context, Brightness.dark),
         builder: (theme, darkTheme) => MaterialApp(
           theme: theme,
           darkTheme: darkTheme,
-          themeMode: ThemeMode.system,
           title: CommonData.appTitle,
           initialRoute: '/',
           routes: {

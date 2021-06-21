@@ -39,19 +39,19 @@ class _HomeState extends State<Home> {
       if (value) {
         String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
         final pref = await SharedPreferences.getInstance();
-        pref.setDouble(
+        await pref.setDouble(
             CommonData.versionPref, double.tryParse(CommonData.appVer));
 
         final route = MaterialPageRoute(
             builder: (context) => MarkDownView(changelog: changelog));
-        Navigator.push(context, route);
+        await Navigator.push(context, route);
       }
-    });
-
-    // Check battery optimization.
-    _globalFunctions.batteryOptimizationCheck().then((value) async {
-      if (!value && await _globalFunctions.getBatteryPref())
-        showDialog(context: context, builder: (context) => BatteryWarning());
+    }).then((_) {
+      // Check battery optimization.
+      _globalFunctions.batteryOptimizationCheck().then((value) async {
+        if (!value && await _globalFunctions.getBatteryPref())
+          showDialog(context: context, builder: (context) => BatteryWarning());
+      });
     });
 
     super.initState();
@@ -94,10 +94,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             floatingActionButton: SpeedDial(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey[800]
-                  : Colors.white,
-              foregroundColor: Theme.of(context).textTheme.bodyText1.color,
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).scaffoldBackgroundColor,
               animatedIcon: AnimatedIcons.menu_close,
               buttonSize: 60.0,
               animationSpeed: 90,
