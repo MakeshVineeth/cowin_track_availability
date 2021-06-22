@@ -54,14 +54,15 @@ class GlobalFunctions {
       if (reviewAskedCount > 2) return;
 
       String dateStr = prefs.getString(dateStrPrefs);
-      DateTime dateCheck = DateTime.tryParse(dateStr);
       DateTime now = DateTime.now();
 
-      // If dateCheck is null, it means there is no shared preference yet which should mean first time.
-      if (dateCheck == null) {
+      DateTime dateCheck;
+      // If dateStr is null, it means there is no shared preference yet which should mean first time.
+      if (dateStr == null) {
         await prefs.setString(dateStrPrefs, now.toString());
-        return;
-      }
+        dateCheck = now;
+      } else
+        dateCheck = DateTime.tryParse(dateStr);
 
       Duration difference = dateCheck.difference(now);
 
