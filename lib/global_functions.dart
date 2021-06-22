@@ -65,7 +65,7 @@ class GlobalFunctions {
 
       Duration difference = dateCheck.difference(now);
 
-      if (action || difference.inDays >= 1) {
+      if ((action && reviewAskedCount == 0) || difference.inDays >= 1) {
         final InAppReview inAppReview = InAppReview.instance;
         final bool isAvailable = await inAppReview.isAvailable();
 
@@ -73,7 +73,6 @@ class GlobalFunctions {
           Future.delayed(const Duration(seconds: 3), () async {
             await inAppReview.requestReview();
             await prefs.setInt(reviewCountPrefs, reviewAskedCount++);
-            await prefs.setString(dateStrPrefs, now.toString());
           });
       }
     } catch (_) {}
