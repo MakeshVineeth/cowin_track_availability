@@ -43,32 +43,66 @@ class GlobalFunctions {
     inAppReview.openStoreListing();
   }
 
-  void displayAbout(BuildContext context) {
-    showAboutDialog(
-      context: context,
-      applicationName: CommonData.appTitle,
-      applicationVersion: CommonData.appVer,
-      applicationLegalese: CommonData.appDesc,
-      children: <Widget>[
-        SizedBox(height: 12),
-        Text(
-          'If you\'ve liked our app, please do give us a 5 star rating. It helps us a lot 😄',
-          textAlign: TextAlign.center,
-          softWrap: true,
-          style: TextStyle(
-            fontSize: 12.5,
-            fontWeight: FontWeight.w600,
+  Future<void> askForReview({bool action = false}) async {
+    try {
+      const String reviewCountPrefs = 'review_count';
+      const String dateStrPrefs = 'review_date';
+
+      final prefs = await SharedPreferences.getInstance();
+      int reviewAskedCount = prefs.getInt(reviewCountPrefs) ?? 0;
+
+      if (reviewAskedCount > 2) return;
+
+      String dateStr = prefs.getString(dateStrPrefs);
+      DateTime dateCheck = DateTime.tryParse(dateStr);
+      DateTime now = DateTime.now();
+
+      // If dateCheck is null, it means there is no shared preference yet which should mean first time.
+      if (dateCheck == null) {
+        await prefs.setString(dateStrPrefs, now.toString());
+        return;
+      }
+
+      Duration difference = dateCheck.difference(now);
+
+      if (action || difference.inDays >= 1) {
+        final InAppReview inAppReview = InAppReview.instance;
+        final bool isAvailable = await inAppReview.isAvailable();
+
+        if (isAvailable)
+          Future.delayed(const Duration(seconds: 3), () async {
+            await inAppReview.requestReview();
+            await prefs.setInt(reviewCountPrefs, reviewAskedCount++);
+            await prefs.setString(dateStrPrefs, now.toString());
+          });
+      }
+    } catch (_) {}
+  }
+
+  void displayAbout(BuildContext context) => showAboutDialog(
+        context: context,
+        applicationName: CommonData.appTitle,
+        applicationVersion: CommonData.appVer,
+        applicationLegalese: CommonData.appDesc,
+        children: <Widget>[
+          SizedBox(height: 12),
+          Text(
+            'If you\'ve liked our app, please do give us a 5 star rating. It helps us a lot 😄',
+            textAlign: TextAlign.center,
+            softWrap: true,
+            style: TextStyle(
+              fontSize: 12.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+        applicationIcon: Image(
+          width: 30,
+          image: AssetImage(
+            CommonData.logoAsset,
           ),
         ),
-      ],
-      applicationIcon: Image(
-        width: 30,
-        image: AssetImage(
-          CommonData.logoAsset,
-        ),
-      ),
-    );
-  }
+      );
 
   void launchApp(String packageName) async {
     try {

@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
         if (!value && await _globalFunctions.getBatteryPref())
           showDialog(context: context, builder: (context) => BatteryWarning());
       });
-    });
+    }).then((_) => _globalFunctions.askForReview());
 
     super.initState();
   }

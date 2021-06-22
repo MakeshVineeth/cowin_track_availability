@@ -1,6 +1,7 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
+import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/userSelectionsView.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccineDropDown.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccine_alert_functions.dart';
@@ -25,6 +26,7 @@ class _AlertScreenState extends State<AlertScreen> {
   String selectedAge = CommonData.defaultVaccineType;
   static final String intervalDesc =
       'Select the Time Interval at which the app would like to check for slot availability.';
+  final GlobalFunctions _globalFunctions = GlobalFunctions();
 
   @override
   void initState() {
@@ -178,6 +180,8 @@ class _AlertScreenState extends State<AlertScreen> {
           (int status) => print('VaccineAlertService: Stopped.: $status'));
 
     if (mounted) setState(() => _enabledStatus = status);
+
+    _globalFunctions.askForReview(action: true);
   }
 
   void setInterval(String value) {
