@@ -176,12 +176,12 @@ class _AlertScreenState extends State<AlertScreen> {
     if (status)
       await initPlatformState();
     else
-      await BackgroundFetch.stop().then(
-          (int status) => print('VaccineAlertService: Stopped.: $status'));
+      await BackgroundFetch.stop()
+          .then((_) => print('VaccineAlertService Stopped.'));
 
     if (mounted) setState(() => _enabledStatus = status);
 
-    _globalFunctions.askForReview(action: true);
+    if (status) _globalFunctions.askForReview(action: true);
   }
 
   void setInterval(String value) {

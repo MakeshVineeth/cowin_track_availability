@@ -50,6 +50,7 @@ class GlobalFunctions {
 
       final prefs = await SharedPreferences.getInstance();
       int reviewAskedCount = prefs.getInt(reviewCountPrefs) ?? 0;
+      print('reviewAskedCount $reviewAskedCount');
 
       if (reviewAskedCount > 2) return;
 
@@ -70,11 +71,12 @@ class GlobalFunctions {
         final InAppReview inAppReview = InAppReview.instance;
         final bool isAvailable = await inAppReview.isAvailable();
 
-        if (isAvailable)
+        if (isAvailable) {
           Future.delayed(const Duration(seconds: 2), () async {
-            await prefs.setInt(reviewCountPrefs, reviewAskedCount++);
+            await prefs.setInt(reviewCountPrefs, ++reviewAskedCount);
             await inAppReview.requestReview();
           });
+        }
       }
     } catch (_) {}
   }
