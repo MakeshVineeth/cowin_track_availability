@@ -33,28 +33,35 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     futureIndex = getLastSelectedTab();
-
-    // To Display Changelog
-    _globalFunctions.isAppNewVersion().then((value) async {
-      if (value) {
-        String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
-        final pref = await SharedPreferences.getInstance();
-        await pref.setDouble(
-            CommonData.versionPref, double.tryParse(CommonData.appVer));
-
-        final route = MaterialPageRoute(
-            builder: (context) => MarkDownView(changelog: changelog));
-        await Navigator.push(context, route);
-      }
-    }).then((_) {
-      // Check battery optimization.
-      _globalFunctions.batteryOptimizationCheck().then((value) async {
-        if (!value && await _globalFunctions.getBatteryPref())
-          showDialog(context: context, builder: (context) => BatteryWarning());
-      }).then((_) => _globalFunctions.askForReview());
-    });
-
+    essentialTasks();
     super.initState();
+  }
+
+  Future<void> essentialTasks() async {
+    // To Display Changelog
+    bool value = await _globalFunctions.isAppNewVersion();
+
+    if (value) {
+      String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
+
+      if (changelog == null) return;
+
+      final route = MaterialPageRoute(
+        builder: (context) => MarkDownView(changelog: changelog),
+      );
+
+      await Navigator.push(context, route);
+    }
+
+    // Check battery optimization.
+    bool isBatterySaving = await _globalFunctions.batteryOptimizationCheck();
+    if (!isBatterySaving && await _globalFunctions.getBatteryPref())
+      await showDialog(
+        context: context,
+        builder: (context) => BatteryWarning(),
+      );
+
+    _globalFunctions.askForReview();
   }
 
   Future<void> getLastSelectedTab() async {

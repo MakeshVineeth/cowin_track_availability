@@ -71,9 +71,9 @@ class GlobalFunctions {
         final bool isAvailable = await inAppReview.isAvailable();
 
         if (isAvailable)
-          Future.delayed(const Duration(seconds: 3), () async {
-            await inAppReview.requestReview();
+          Future.delayed(const Duration(seconds: 2), () async {
             await prefs.setInt(reviewCountPrefs, reviewAskedCount++);
+            await inAppReview.requestReview();
           });
       }
     } catch (_) {}
@@ -117,17 +117,19 @@ class GlobalFunctions {
 
   Future<bool> isAppNewVersion() async {
     try {
-      double version = double.tryParse(CommonData.appVer);
+      double currentVersion = double.tryParse(CommonData.appVer);
 
-      if (version == null) return false;
+      if (currentVersion == null) return false;
 
       final pref = await SharedPreferences.getInstance();
-      double current = pref.getDouble(CommonData.versionPref);
+      double storedVersion = pref.getDouble(CommonData.versionPref);
 
-      if (current == null || current > version)
+      if (storedVersion == null || storedVersion < currentVersion) {
+        await pref.setDouble(CommonData.versionPref, currentVersion);
         return true;
-      else
+      } else {
         return false;
+      }
     } catch (_) {
       return false;
     }
