@@ -54,8 +54,8 @@ class _HomeState extends State<Home> {
     }
 
     // Check battery optimization.
-    bool isBatterySaving = await _globalFunctions.batteryOptimizationCheck();
-    if (!isBatterySaving && await _globalFunctions.getBatteryPref())
+    bool batteryCheck = await _globalFunctions.batteryOptimizationCheck();
+    if (!batteryCheck && await _globalFunctions.getBatteryPref())
       await showDialog(
         context: context,
         builder: (context) => BatteryWarning(),
