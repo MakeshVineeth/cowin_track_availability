@@ -2,7 +2,7 @@ name: cowin_track_availability
 description: A Flutter project that can track Vaccines in India using CoWIN Public APIs.
 
 publish_to: 'none'
-version: 1.2+8
+version: 1.2+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

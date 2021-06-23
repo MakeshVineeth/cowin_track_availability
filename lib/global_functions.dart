@@ -50,7 +50,6 @@ class GlobalFunctions {
 
       final prefs = await SharedPreferences.getInstance();
       int reviewAskedCount = prefs.getInt(reviewCountPrefs) ?? 0;
-      print('reviewAskedCount $reviewAskedCount');
 
       if (reviewAskedCount > 2) return;
 
@@ -65,9 +64,9 @@ class GlobalFunctions {
       } else
         dateCheck = DateTime.tryParse(dateStr);
 
-      Duration difference = dateCheck.difference(now);
+      Duration difference = now.difference(dateCheck);
 
-      if ((action && reviewAskedCount == 0) || difference.inDays >= 1) {
+      if ((action && reviewAskedCount == 0) || difference.inHours >= 7) {
         final InAppReview inAppReview = InAppReview.instance;
         final bool isAvailable = await inAppReview.isAvailable();
 
