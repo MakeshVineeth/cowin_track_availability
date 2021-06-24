@@ -155,6 +155,7 @@ class _AlertScreenState extends State<AlertScreen> {
             ),
             SizedBox(height: 8),
             SwitchListTile(
+              shape: CommonData.roundedRectangleBorder,
               title: Text('Enable Notifications'),
               secondary: Icon(Icons.notifications_active_outlined),
               value: _enabledStatus,

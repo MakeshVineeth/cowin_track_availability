@@ -6,7 +6,7 @@ class GenericTypeDropDown extends StatefulWidget {
   final Function onChangeEvent;
   final String hintText;
 
-  GenericTypeDropDown(
+  const GenericTypeDropDown(
       {@required this.list,
       @required this.value,
       @required this.onChangeEvent,
@@ -73,24 +73,23 @@ class _GenericTypeDropDownState extends State<GenericTypeDropDown> {
     @required String hintText,
     @required Function function,
     @required List<String> list,
-  }) {
-    return DropdownButton<String>(
-      isExpanded: true,
-      value: value,
-      hint: Text(hintText),
-      onChanged: (String value) => function(value),
-      items: List.generate(
-        list.length,
-        (index) => DropdownMenuItem<String>(
-          value: list.elementAt(index),
-          child: Text(
-            list.elementAt(index),
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
+  }) =>
+      DropdownButton<String>(
+        isExpanded: true,
+        value: value,
+        hint: Text(hintText),
+        onChanged: (String value) => function(value),
+        items: List.generate(
+          list.length,
+          (index) => DropdownMenuItem<String>(
+            value: list.elementAt(index),
+            child: Text(
+              list.elementAt(index),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -12,14 +12,14 @@ class DetailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String blockName = map['address'].toString();
-    String pinCode = map['pincode'].toString();
+    final String blockName = map['address'].toString();
+    final String pinCode = map['pincode'].toString();
     String address = '${map['address']}, $pinCode' ?? '';
 
     if (address.isEmpty) address = blockName + pinCode;
-    String availableDoses = map['available_capacity'].toString() ?? '--';
-    String doses1 = map['available_capacity_dose1'].toString() ?? '--';
-    String doses2 = map['available_capacity_dose2'].toString() ?? '--';
+    final String availableDoses = map['available_capacity'].toString() ?? '--';
+    final String doses1 = map['available_capacity_dose1'].toString() ?? '--';
+    final String doses2 = map['available_capacity_dose2'].toString() ?? '--';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

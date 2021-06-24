@@ -39,8 +39,10 @@ class GlobalFunctions {
   }
 
   void showPlayStorePage() {
-    final InAppReview inAppReview = InAppReview.instance;
-    inAppReview.openStoreListing();
+    try {
+      final InAppReview inAppReview = InAppReview.instance;
+      inAppReview.openStoreListing();
+    } catch (_) {}
   }
 
   Future<void> askForReview({bool action = false}) async {
@@ -51,7 +53,7 @@ class GlobalFunctions {
       final prefs = await SharedPreferences.getInstance();
       int reviewAskedCount = prefs.getInt(reviewCountPrefs) ?? 0;
 
-      if (reviewAskedCount > 2) return;
+      if (reviewAskedCount > 1) return;
 
       String dateStr = prefs.getString(dateStrPrefs);
       DateTime now = DateTime.now();

@@ -5,7 +5,7 @@ class DisplayResult extends StatelessWidget {
   final String header;
   final Color color;
 
-  DisplayResult({@required this.text, @required this.header, this.color});
+  const DisplayResult({@required this.text, @required this.header, this.color});
 
   @override
   Widget build(BuildContext context) {

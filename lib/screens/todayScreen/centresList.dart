@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/notAvailableWidget.dart';
