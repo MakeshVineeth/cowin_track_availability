@@ -1,8 +1,3 @@
-## UPDATE 1.3
-------
-- Fix some bugs.
-#### 1
-#### 1
 ## UPDATE 1.2
 ------
 - Fix UI related issues.

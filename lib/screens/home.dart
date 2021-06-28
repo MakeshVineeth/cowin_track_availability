@@ -126,9 +126,8 @@ class _HomeState extends State<Home> {
               },
             ),
           );
-        } else {
+        } else
           return PlaceHolderScaffold();
-        }
       },
     );
   }
@@ -179,11 +178,6 @@ class _HomeState extends State<Home> {
       speedDialItem(
         'CoWin App',
         () => _globalFunctions.launchApp(CommonData.coWin),
-        Icons.launch_outlined,
-      ),
-      speedDialItem(
-        'Aarogya Setu',
-        () => _globalFunctions.launchApp(CommonData.aarogyaSetu),
         Icons.launch_outlined,
       ),
       speedDialItem(
