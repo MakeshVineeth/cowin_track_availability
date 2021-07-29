@@ -106,7 +106,8 @@ class _CentresListState extends State<CentresList> {
               height: CommonData.smallFont,
               child: LoadingIndicator(
                 indicatorType: Indicator.ballScale,
-                color: Theme.of(context).textTheme.bodyText1.color,
+                pathBackgroundColor:
+                    Theme.of(context).textTheme.bodyText1.color,
               ),
             ),
             SizedBox(width: 5),

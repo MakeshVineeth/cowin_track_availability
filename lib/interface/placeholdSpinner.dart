@@ -10,7 +10,7 @@ class PlaceholdSpinner extends StatelessWidget {
         height: 50,
         child: LoadingIndicator(
           indicatorType: Indicator.ballSpinFadeLoader,
-          color: Theme.of(context).primaryColor,
+          pathBackgroundColor: Theme.of(context).primaryColor,
         ),
       ),
     );
