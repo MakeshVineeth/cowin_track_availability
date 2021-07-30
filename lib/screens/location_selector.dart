@@ -24,6 +24,7 @@ class _LocationSelectorState extends State<LocationSelector>
   SelectedOptionProvider _selectedOptionProvider;
   String dropDownValState;
   AnimationController _animationController;
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -69,6 +70,27 @@ class _LocationSelectorState extends State<LocationSelector>
             ),
             SizedBox(height: 10),
             DistrictSelection(),
+            SizedBox(height: 10),
+            Text(
+              '(or)',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            SizedBox(
+              width: 30,
+              child: TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  filled: true,
+                  hintStyle: TextStyle(color: Colors.grey[800]),
+                  hintText: "Enter Pin Code",
+                  fillColor: Colors.white70,
+                ),
+              ),
+            ),
           ],
         ),
         actions: [
@@ -94,6 +116,20 @@ class _LocationSelectorState extends State<LocationSelector>
   }
 
   void okEvent() async {
+    String text = _textEditingController.text.trim();
+    // For Pin Code
+    if (text.isNotEmpty) {
+      int check = int.tryParse(text);
+
+      if (check != null) {
+        _selectedOptionProvider.stateName = 'Pin Code';
+        _selectedOptionProvider.stateID = 0;
+        _selectedOptionProvider.districtID = 0;
+        _selectedOptionProvider.districtName = text;
+        _selectedOptionProvider.update();
+      }
+    }
+
     if (_selectedOptionProvider.districtID != null &&
         _selectedOptionProvider.districtName != null &&
         _selectedOptionProvider.stateID != null &&

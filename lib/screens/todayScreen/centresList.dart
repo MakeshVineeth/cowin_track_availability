@@ -35,7 +35,7 @@ class CentresList extends StatefulWidget {
 class _CentresListState extends State<CentresList> {
   List<Map> _centresList = [];
   GlobalFunctions _globalFunctions = GlobalFunctions();
-  final String requestURL =
+  final String requestDistrictURL =
       'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=';
   Future<void> future;
 
@@ -131,7 +131,14 @@ class _CentresListState extends State<CentresList> {
       final String date = widget.isToday
           ? _globalFunctions.getTodayDate()
           : _globalFunctions.getTomorrowDate();
-      final url = requestURL + widget.districtID + '&date=' + date;
+
+      String url;
+
+      if (int.tryParse(widget.districtName) == null)
+        url = requestDistrictURL + widget.districtID + '&date=' + date;
+      else
+        url =
+            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${widget.districtName}&date=$date';
 
       Response response = await _globalFunctions.getWebResponse(url);
 

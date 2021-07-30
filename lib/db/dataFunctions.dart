@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/db/dbProvider.dart';
 import 'package:cowin_track_availability/global_functions.dart';
@@ -202,14 +201,24 @@ class DataFunctions {
     } catch (_) {}
   }
 
-  Future<List> getCalendarData(
-      {@required String districtID, @required Database database}) async {
+  Future<List> getCalendarData({
+    @required String districtID,
+    @required Database database,
+    @required String districtName,
+  }) async {
     try {
-      String url =
-          'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=' +
-              districtID.toString() +
-              '&date=' +
-              globalFunctions.getTodayDate();
+      String url;
+
+      if (int.tryParse(districtName) == null)
+        url =
+            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=' +
+                districtID +
+                '&date=' +
+                globalFunctions.getTodayDate();
+      else
+        url =
+            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=$districtID&date=' +
+                globalFunctions.getTodayDate();
 
       Response response = await globalFunctions.getWebResponse(url);
       if (response.statusCode != 200 || response == null) return [];

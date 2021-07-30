@@ -80,9 +80,11 @@ class _WeekScreenState extends State<WeekScreen> {
       // Gets all user selected locations and looping through each.
       for (Map district in userLocations) {
         String districtID = district['districtID'].toString();
+        String districtName = district['districtName'].toString();
         List<dynamic> map = await _dataFunctions.getCalendarData(
           districtID: districtID,
           database: _databaseProvider.database,
+          districtName: districtName,
         );
 
         List<Widget> allCenters = [];

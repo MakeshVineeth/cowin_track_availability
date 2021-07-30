@@ -45,9 +45,11 @@ class VaccineAlertClass {
 
       for (Map district in userLocations) {
         String districtID = district['districtID'].toString();
+        String districtName = district['districtName'].toString();
         List map = await _dataFunctions.getCalendarData(
           districtID: districtID,
           database: database,
+          districtName: districtName,
         );
 
         // map contains all the centres and their details in a district.

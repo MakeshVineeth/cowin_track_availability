@@ -6,7 +6,5 @@ class SelectedOptionProvider extends ChangeNotifier {
   int stateID;
   int districtID;
 
-  void update() {
-    notifyListeners();
-  }
+  void update() => notifyListeners();
 }
