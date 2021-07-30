@@ -49,7 +49,7 @@ class DataFunctions {
       String tableName = stateName.trim().replaceAll(' ', '_');
 
       await db.execute(
-          'CREATE TABLE $tableName (districtName TEXT, districtID INTEGER)');
+          'CREATE TABLE $tableName (districtName TEXT PRIMARY KEY, districtID INTEGER)');
 
       if (await DataFunctions().isTableNotExists(tableName, db))
         return; // extra check
@@ -163,16 +163,8 @@ class DataFunctions {
     try {
       if (await isTableNotExists(CommonData.userTable, database)) return;
 
-      int sameDistrictCount = Sqflite.firstIntValue(await database.rawQuery(
-              "SELECT COUNT(*) FROM ${CommonData.userTable} WHERE districtID=$districtID")) ??
-          0;
-
-      // If sameDistrictCount is Zero, then it is unique user location.
-      if (sameDistrictCount == 0)
-        await database.transaction((txn) async {
-          await txn.rawInsert(
-              'INSERT INTO ${CommonData.userTable}(districtName, districtID, stateName, stateID) VALUES("$districtName", $districtID, "$stateName", $stateID)');
-        });
+      await database.transaction((txn) async => await txn.rawInsert(
+          'INSERT INTO ${CommonData.userTable}(districtName, districtID, stateName, stateID) VALUES("$districtName", $districtID, "$stateName", $stateID)'));
     } catch (_) {}
   }
 

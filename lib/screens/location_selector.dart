@@ -93,11 +93,11 @@ class _LocationSelectorState extends State<LocationSelector>
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   filled: true,
-                  hintStyle: TextStyle(color: Colors.grey[800]),
+                  hintStyle: TextStyle(color: Colors.grey[700]),
                   hintText: "Enter Pin Code",
                   fillColor: Theme.of(context).brightness == Brightness.light
                       ? Colors.white70
-                      : Colors.grey[850],
+                      : Colors.black45,
                 ),
               ),
             ),
