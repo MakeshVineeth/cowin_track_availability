@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
-  static final String appVer = '1.2';
+  static final String appVer = '1.3';
   static final String appDesc =
       'An Open-Source App that can track COVID-19 Vaccines in India. Supports Notifications and Light/Dark Themes. Retrieves data directly from the CoWIN Public APIs. You still have to go through CoWIN website in order to book the vaccine slot.';
   static final String logoAsset = 'assets/vaccine.png';

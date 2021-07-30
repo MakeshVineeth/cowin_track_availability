@@ -1,3 +1,10 @@
+## UPDATE 1.3
+------
+- Add Locations by Pin Code.
+- Update built-in packages.
+- Bug fixes.
+#### 1
+#### 1
 ## UPDATE 1.2
 ------
 - Fix UI related issues.
