@@ -49,7 +49,7 @@ class DataFunctions {
       String tableName = stateName.trim().replaceAll(' ', '_');
 
       await db.execute(
-          'CREATE TABLE $tableName (districtName TEXT PRIMARY KEY, districtID INTEGER)');
+          'CREATE TABLE $tableName (districtName TEXT, districtID INTEGER)');
 
       if (await DataFunctions().isTableNotExists(tableName, db))
         return; // extra check

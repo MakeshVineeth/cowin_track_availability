@@ -7,6 +7,7 @@ import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/locationsDropDown.dart';
 import 'package:cowin_track_availability/screens/district_selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -71,15 +72,22 @@ class _LocationSelectorState extends State<LocationSelector>
             SizedBox(height: 10),
             DistrictSelection(),
             SizedBox(height: 10),
-            Text(
-              '(or)',
-              textAlign: TextAlign.center,
-            ),
+            Text('(or)',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                )),
             SizedBox(height: 10),
             SizedBox(
               width: 30,
               child: TextField(
                 controller: _textEditingController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+                scrollPhysics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -87,7 +95,9 @@ class _LocationSelectorState extends State<LocationSelector>
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[800]),
                   hintText: "Enter Pin Code",
-                  fillColor: Colors.white70,
+                  fillColor: Theme.of(context).brightness == Brightness.light
+                      ? Colors.white70
+                      : Colors.grey[850],
                 ),
               ),
             ),
