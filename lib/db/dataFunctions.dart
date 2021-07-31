@@ -143,7 +143,8 @@ class DataFunctions {
 
   Future<List<Map>> getUserTable(Database database) async {
     try {
-      if (await isTableNotExists(CommonData.userTable, database)) return [];
+      if (await isTableNotExists(CommonData.userTable, database))
+        return const [];
 
       List<Map> data =
           await database.rawQuery('SELECT * FROM ${CommonData.userTable}');
@@ -200,20 +201,18 @@ class DataFunctions {
   }) async {
     try {
       String url;
+      final String todayDateStr = globalFunctions.getTodayDate();
 
       if (int.tryParse(districtName) == null)
         url =
-            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=' +
-                districtID +
-                '&date=' +
-                globalFunctions.getTodayDate();
+            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=$districtID&date=$todayDateStr';
       else
         url =
-            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=$districtID&date=' +
-                globalFunctions.getTodayDate();
+            'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=$districtName&date=$todayDateStr';
 
       Response response = await globalFunctions.getWebResponse(url);
-      if (response.statusCode != 200 || response == null) return [];
+
+      if (response.statusCode != 200 || response == null) return const [];
       var map = json.decode(response.body)['centers'] as List;
 
       return map;
