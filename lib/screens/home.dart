@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cowin_track_availability/commons.dart';
 import 'package:cowin_track_availability/global_functions.dart';
 import 'package:cowin_track_availability/interface/batteryWarning.dart';
@@ -8,8 +10,10 @@ import 'package:cowin_track_availability/interface/themeDialog.dart';
 import 'package:cowin_track_availability/screens/todayScreen/dayScreen.dart';
 import 'package:cowin_track_availability/screens/user_locations.dart';
 import 'package:cowin_track_availability/screens/weekScreen/weekScreen.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,30 +42,43 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> essentialTasks() async {
-    // To Display Changelog
-    bool value = await _globalFunctions.isAppNewVersion();
+    try {
+      // Refresh rate support
+      if (Platform.isAndroid) {
+        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        int sdkVer = androidInfo.version.sdkInt;
 
-    if (value) {
-      String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
+        if (sdkVer >= 23) await FlutterDisplayMode.setHighRefreshRate();
+      }
 
-      if (changelog == null) return;
+      // To Display Changelog
+      bool value = await _globalFunctions.isAppNewVersion();
 
-      final route = MaterialPageRoute(
-        builder: (context) => MarkDownView(changelog: changelog),
-      );
+      if (value) {
+        String changelog = await rootBundle.loadString('assets/CHANGELOG.md');
 
-      await Navigator.push(context, route);
+        if (changelog == null) return;
+
+        final route = MaterialPageRoute(
+          builder: (context) => MarkDownView(changelog: changelog),
+        );
+
+        await Navigator.push(context, route);
+      }
+
+      // Check battery optimization.
+      bool batteryCheck = await _globalFunctions.batteryOptimizationCheck();
+      if (!batteryCheck && await _globalFunctions.getBatteryPref())
+        await showDialog(
+          context: context,
+          builder: (context) => BatteryWarning(),
+        );
+
+      _globalFunctions.askForReview();
+    } catch (e) {
+      debugPrint(e);
     }
-
-    // Check battery optimization.
-    bool batteryCheck = await _globalFunctions.batteryOptimizationCheck();
-    if (!batteryCheck && await _globalFunctions.getBatteryPref())
-      await showDialog(
-        context: context,
-        builder: (context) => BatteryWarning(),
-      );
-
-    _globalFunctions.askForReview();
   }
 
   Future<void> getLastSelectedTab() async {

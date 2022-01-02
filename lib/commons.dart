@@ -52,20 +52,19 @@ class CommonData {
     Color primary = isDarkTheme ? Colors.lightBlue : Colors.indigo;
 
     return ThemeData(
+      brightness: brightness,
       appBarTheme: AppBarTheme(
-        brightness: brightness,
         centerTitle: true,
-        backwardsCompatibility: false,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: brightness,
+          statusBarIconBrightness:
+              isDarkTheme ? Brightness.light : Brightness.dark,
         ),
       ),
       primaryColor: primary,
       primarySwatch: primary,
       backgroundColor: background,
       scaffoldBackgroundColor: background,
-      brightness: brightness,
       cardColor: background,
       applyElevationOverlayColor: isDarkTheme,
       cardTheme: CardTheme(
