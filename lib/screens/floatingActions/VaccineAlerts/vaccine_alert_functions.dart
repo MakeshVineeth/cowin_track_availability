@@ -13,7 +13,7 @@ class VaccineAlertClass {
       AndroidNotificationDetails(
     'vaccine_alert_1',
     'makesh_tech_vaccine_tracker',
-    'Displays Vaccine Alerts!',
+    channelDescription: 'Displays Vaccine Alerts!',
     importance: Importance.max,
     priority: Priority.high,
     showWhen: false,

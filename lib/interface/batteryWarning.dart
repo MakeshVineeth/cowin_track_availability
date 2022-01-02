@@ -1,4 +1,4 @@
-import 'package:battery_optimization/battery_optimization.dart';
+import 'package:optimization_battery/optimization_battery.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +27,7 @@ class BatteryWarning extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-            BatteryOptimization.openBatteryOptimizationSettings();
+            OptimizationBattery.openBatteryOptimizationSettings();
           },
           child: Text('Open Settings'),
         ),

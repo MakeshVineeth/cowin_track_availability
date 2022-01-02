@@ -52,7 +52,7 @@ class _WeekScreenState extends State<WeekScreen> {
               Flexible(
                 child: ScrollWrapper(
                   scrollController: _scrollController,
-                  child: ListView.builder(
+                  builder: (context, properties) => ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics()),
                     controller: _scrollController,

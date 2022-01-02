@@ -68,7 +68,7 @@ class _DayScreenState extends State<DayScreen> {
               Flexible(
                 child: ScrollWrapper(
                   scrollController: _scrollController,
-                  child: ListView.builder(
+                  builder: (context, properties) => ListView.builder(
                     itemCount: _userLocations.length,
                     physics: AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics()),

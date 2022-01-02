@@ -1,4 +1,4 @@
-import 'package:battery_optimization/battery_optimization.dart';
+import 'package:optimization_battery/optimization_battery.dart';
 import 'package:cowin_track_availability/commons.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
@@ -140,7 +140,7 @@ class GlobalFunctions {
 
   Future<bool> batteryOptimizationCheck() async {
     try {
-      bool ignored = await BatteryOptimization.isIgnoringBatteryOptimizations();
+      bool ignored = await OptimizationBattery.isIgnoringBatteryOptimizations();
       return ignored;
     } catch (_) {
       return false;

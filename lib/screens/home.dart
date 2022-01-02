@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
               animatedIcon: AnimatedIcons.menu_close,
-              buttonSize: 60.0,
+              buttonSize: Size(60.0, 60.0),
               animationSpeed: 90,
               tooltip: 'More Actions',
               renderOverlay: false,
