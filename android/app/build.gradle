@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    ndkVersion "22.1.7171670"
+    ndkVersion "23.1.7779620"
 
     defaultConfig {
         applicationId "com.makeshtech.cowin_track_availability"
