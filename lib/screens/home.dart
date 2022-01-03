@@ -103,44 +103,47 @@ class _HomeState extends State<Home> {
       future: futureIndex,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                CommonData.appTitle,
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: CommonData.changeStatusBarColor(context),
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  CommonData.appTitle,
+                ),
               ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: FadeIndexedStack(
-                duration: const Duration(milliseconds: 300),
-                index: _currentIndex,
-                children: widgets,
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: FadeIndexedStack(
+                  duration: const Duration(milliseconds: 300),
+                  index: _currentIndex,
+                  children: widgets,
+                ),
               ),
-            ),
-            floatingActionButton: SpeedDial(
-              backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
-              animatedIcon: AnimatedIcons.menu_close,
-              buttonSize: Size(60.0, 60.0),
-              animationSpeed: 90,
-              tooltip: 'More Actions',
-              renderOverlay: false,
-              overlayOpacity: 0.0,
-              children: _loadSpeedDialList(),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _currentIndex,
-              type: BottomNavigationBarType.fixed,
-              items: [
-                _bottomNavItem(Icons.explore_rounded, 'Locations'),
-                _bottomNavItem(Icons.today_rounded, 'Today'),
-                _bottomNavItem(Icons.calendar_today_outlined, 'Tomorrow'),
-                _bottomNavItem(Icons.date_range_outlined, 'Week'),
-              ],
-              onTap: (int n) {
-                setLastSelectedTab(n);
-                setState(() => _currentIndex = n);
-              },
+              floatingActionButton: SpeedDial(
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                animatedIcon: AnimatedIcons.menu_close,
+                buttonSize: Size(60.0, 60.0),
+                animationSpeed: 90,
+                tooltip: 'More Actions',
+                renderOverlay: false,
+                overlayOpacity: 0.0,
+                children: _loadSpeedDialList(),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _currentIndex,
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  _bottomNavItem(Icons.explore_rounded, 'Locations'),
+                  _bottomNavItem(Icons.today_rounded, 'Today'),
+                  _bottomNavItem(Icons.calendar_today_outlined, 'Tomorrow'),
+                  _bottomNavItem(Icons.date_range_outlined, 'Week'),
+                ],
+                onTap: (int n) {
+                  setLastSelectedTab(n);
+                  setState(() => _currentIndex = n);
+                },
+              ),
             ),
           );
         } else

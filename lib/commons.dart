@@ -50,16 +50,22 @@ class CommonData {
     bool isDarkTheme = brightness == Brightness.dark;
     Color background = isDarkTheme ? Colors.black : Colors.white;
     Color primary = isDarkTheme ? Colors.lightBlue : Colors.indigo;
+    Color fg = isDarkTheme ? Colors.white : Colors.black;
 
     return ThemeData(
       brightness: brightness,
       appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: fg),
+        backgroundColor: background,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
           statusBarBrightness: brightness,
           statusBarIconBrightness:
               isDarkTheme ? Brightness.light : Brightness.dark,
         ),
+        titleTextStyle:
+            Theme.of(context).textTheme.headline6.copyWith(color: fg),
       ),
       primaryColor: primary,
       primarySwatch: primary,
@@ -83,5 +89,21 @@ class CommonData {
         ),
       ),
     );
+  }
+
+  static SystemUiOverlayStyle changeStatusBarColor(BuildContext context) {
+    bool isLightTheme = Theme.of(context).brightness == Brightness.light;
+
+    final SystemUiOverlayStyle flatTheme = SystemUiOverlayStyle(
+      systemNavigationBarColor: isLightTheme ? Colors.white : Colors.black,
+      systemNavigationBarIconBrightness:
+          isLightTheme ? Brightness.dark : Brightness.light,
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness:
+          isLightTheme ? Brightness.dark : Brightness.light,
+    );
+
+    SystemChrome.setSystemUIOverlayStyle(flatTheme);
+    return flatTheme;
   }
 }

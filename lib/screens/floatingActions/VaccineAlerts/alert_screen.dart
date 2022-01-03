@@ -6,6 +6,7 @@ import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/u
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccineDropDown.dart';
 import 'package:cowin_track_availability/screens/floatingActions/VaccineAlerts/vaccine_alert_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,8 +62,10 @@ class _AlertScreenState extends State<AlertScreen> {
 
   Future<void> initPlatformState() async {
     try {
+      // onFetch(null); Uncomment for Test Case
+
       if (!_enabledStatus) {
-        await BackgroundFetch.configure(
+        int status = await BackgroundFetch.configure(
           BackgroundFetchConfig(
             minimumFetchInterval: CommonData.intervals[selectedInterval],
             stopOnTerminate: false,
@@ -78,6 +81,8 @@ class _AlertScreenState extends State<AlertScreen> {
           onFetch,
           onTimeOut,
         );
+
+        print('VaccineAlertService Configuration Status: ' + status.toString());
       }
     } catch (_) {}
   }
@@ -85,13 +90,14 @@ class _AlertScreenState extends State<AlertScreen> {
   Future<void> onFetch(String taskId) async {
     try {
       await VaccineAlertClass().getAlert(database: _databaseProvider?.database);
-      BackgroundFetch.finish(taskId);
+
+      if (taskId?.isNotEmpty ?? false) BackgroundFetch.finish(taskId);
     } catch (_) {}
   }
 
   Future<void> onTimeOut(String taskId) async {
     try {
-      BackgroundFetch.finish(taskId);
+      if (taskId?.isNotEmpty ?? false) BackgroundFetch.finish(taskId);
     } catch (_) {}
   }
 
@@ -101,67 +107,71 @@ class _AlertScreenState extends State<AlertScreen> {
     bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(CommonData.appTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              isPortrait
-                  ? 'You\'ll be alerted for availability of Vaccines in these following locations. $intervalDesc'
-                  : 'You\'ll be alerted for vaccine availability in the Locations added by you. $intervalDesc',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: CommonData.changeStatusBarColor(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(CommonData.appTitle),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                isPortrait
+                    ? 'You\'ll be alerted for availability of Vaccines in these following locations. $intervalDesc'
+                    : 'You\'ll be alerted for vaccine availability in the Locations added by you. $intervalDesc',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+                softWrap: true,
               ),
-              softWrap: true,
-            ),
-            SizedBox(height: 10),
-            if (isPortrait)
+              SizedBox(height: 10),
+              if (isPortrait)
+                Expanded(
+                  flex: 2,
+                  child:
+                      UserSelectionsView(database: _databaseProvider.database),
+                ),
+              SizedBox(height: 10),
               Expanded(
-                flex: 2,
-                child: UserSelectionsView(database: _databaseProvider.database),
+                child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics()),
+                  children: [
+                    GenericTypeDropDown(
+                      list: CommonData.intervals.keys.toList(),
+                      value: selectedInterval,
+                      onChangeEvent: setInterval,
+                      hintText: 'Select Interval',
+                    ),
+                    GenericTypeDropDown(
+                      list: _databaseProvider.vaccinesList,
+                      value: selectedVaccine,
+                      onChangeEvent: setVaccineType,
+                      hintText: CommonData.vaccineHintText,
+                    ),
+                    GenericTypeDropDown(
+                      list: _databaseProvider.ageList,
+                      value: selectedAge,
+                      onChangeEvent: setAge,
+                      hintText: CommonData.ageSelectionHint,
+                    ),
+                  ],
+                ),
               ),
-            SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                physics: AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                children: [
-                  GenericTypeDropDown(
-                    list: CommonData.intervals.keys.toList(),
-                    value: selectedInterval,
-                    onChangeEvent: setInterval,
-                    hintText: 'Select Interval',
-                  ),
-                  GenericTypeDropDown(
-                    list: _databaseProvider.vaccinesList,
-                    value: selectedVaccine,
-                    onChangeEvent: setVaccineType,
-                    hintText: CommonData.vaccineHintText,
-                  ),
-                  GenericTypeDropDown(
-                    list: _databaseProvider.ageList,
-                    value: selectedAge,
-                    onChangeEvent: setAge,
-                    hintText: CommonData.ageSelectionHint,
-                  ),
-                ],
+              SizedBox(height: 8),
+              SwitchListTile(
+                shape: CommonData.roundedRectangleBorder,
+                title: Text('Enable Notifications'),
+                secondary: Icon(Icons.notifications_active_outlined),
+                value: _enabledStatus,
+                onChanged: (bool status) => changeSwitchStatus(status),
               ),
-            ),
-            SizedBox(height: 8),
-            SwitchListTile(
-              shape: CommonData.roundedRectangleBorder,
-              title: Text('Enable Notifications'),
-              secondary: Icon(Icons.notifications_active_outlined),
-              value: _enabledStatus,
-              onChanged: (bool status) => changeSwitchStatus(status),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

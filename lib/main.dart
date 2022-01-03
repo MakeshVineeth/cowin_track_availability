@@ -30,18 +30,26 @@ void main() async {
 void backgroundFetchHeadlessTask(HeadlessTask task) async {
   try {
     String taskId = task.taskId;
-    if (taskId == 'flutter_background_fetch') {
-      bool isTimeout = task.timeout;
+    if (taskId?.isEmpty ?? true) return;
 
-      if (isTimeout) {
-        BackgroundFetch.finish(taskId);
-        return;
-      }
-
-      await VaccineAlertClass().getAlert();
+    var timeout = task.timeout;
+    if (timeout) {
+      print("[BackgroundFetch] Headless task timed-out: $taskId");
       BackgroundFetch.finish(taskId);
+      return;
     }
-  } catch (_) {}
+
+    print("[BackgroundFetch] Headless event received: $taskId");
+
+    if (taskId == 'flutter_background_fetch') {
+      await VaccineAlertClass().getAlert();
+      print("VaccineAlertService: Background Fetched.");
+    }
+
+    BackgroundFetch.finish(taskId);
+  } catch (e) {
+    debugPrint(e);
+  }
 }
 
 class MaterialRootWidget extends StatelessWidget {
