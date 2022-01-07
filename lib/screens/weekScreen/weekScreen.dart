@@ -51,6 +51,7 @@ class _WeekScreenState extends State<WeekScreen> {
               ),
               Flexible(
                 child: ScrollWrapper(
+                  promptTheme: CommonData.scrollUpBtnTheme(context),
                   scrollController: _scrollController,
                   builder: (context, properties) => ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(

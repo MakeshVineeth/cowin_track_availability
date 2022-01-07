@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 
 class CommonData {
   static final String appTitle = 'CoWIN Track Availability';
@@ -106,4 +107,14 @@ class CommonData {
     SystemChrome.setSystemUIOverlayStyle(flatTheme);
     return flatTheme;
   }
+
+  static PromptButtonTheme scrollUpBtnTheme(BuildContext context) =>
+      PromptButtonTheme(
+        elevation: 5.0,
+        icon: Icon(
+          Icons.arrow_drop_up,
+          color: Theme.of(context).primaryColor,
+          size: 28,
+        ),
+      );
 }

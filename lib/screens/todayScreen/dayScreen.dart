@@ -67,6 +67,7 @@ class _DayScreenState extends State<DayScreen> {
               ),
               Flexible(
                 child: ScrollWrapper(
+                  promptTheme: CommonData.scrollUpBtnTheme(context),
                   scrollController: _scrollController,
                   builder: (context, properties) => ListView.builder(
                     itemCount: _userLocations.length,
