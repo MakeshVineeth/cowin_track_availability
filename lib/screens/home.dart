@@ -120,12 +120,14 @@ class _HomeState extends State<Home> {
                 ),
               ),
               floatingActionButton: SpeedDial(
+                key: UniqueKey(),
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Colors.white,
                 animatedIcon: AnimatedIcons.menu_close,
                 buttonSize: Size(60.0, 60.0),
                 animationSpeed: 90,
                 tooltip: 'More Actions',
+                spacing: 5,
                 renderOverlay: false,
                 overlayOpacity: 0.0,
                 children: _loadSpeedDialList(),
@@ -133,7 +135,7 @@ class _HomeState extends State<Home> {
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _currentIndex,
                 type: BottomNavigationBarType.fixed,
-                items: [
+                items: <BottomNavigationBarItem>[
                   _bottomNavItem(Icons.explore_rounded, 'Locations'),
                   _bottomNavItem(Icons.today_rounded, 'Today'),
                   _bottomNavItem(Icons.calendar_today_outlined, 'Tomorrow'),
@@ -152,7 +154,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _bottomNavItem(IconData icon, String label) => BottomNavigationBarItem(
+  BottomNavigationBarItem _bottomNavItem(IconData icon, String label) =>
+      BottomNavigationBarItem(
         icon: Icon(
           icon,
         ),
@@ -217,12 +220,14 @@ class _HomeState extends State<Home> {
       ),
     ];
 
-    if (MediaQuery.of(context).orientation == Orientation.portrait)
-      return [
-        ...list1,
-        ...list2,
-      ];
-    else
-      return list1;
+    bool orientation =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return orientation
+        ? [
+            ...list1,
+            ...list2,
+          ]
+        : list1;
   }
 }
