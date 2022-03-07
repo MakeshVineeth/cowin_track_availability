@@ -3,7 +3,7 @@ buildscript {
     ext {
        compileSdkVersion   = 31
        targetSdkVersion    = 31
-       appCompatVersion    = "1.4.0"
+       appCompatVersion    = "1.4.1"
     }
 
     repositories {
@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.1'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 }
 

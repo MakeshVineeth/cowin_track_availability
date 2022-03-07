@@ -79,7 +79,9 @@ class VaccineAlertClass {
                   String ageInSessionStr =
                       eachSession['min_age_limit'].toString().trim();
                   int minAgeLimit = int.tryParse(ageInSessionStr) ?? 0;
-                  int userSelectedAge = int.tryParse(selectedAge) ?? 0;
+                  int userSelectedAge =
+                      int.tryParse(selectedAge.replaceFirst('+', '').trim()) ??
+                          0;
                   if (userSelectedAge >= minAgeLimit)
                     filterZeroCapacity.add(eachSession);
                 }

@@ -54,6 +54,7 @@ class CommonData {
     Color fg = isDarkTheme ? Colors.white : Colors.black;
 
     return ThemeData(
+      useMaterial3: true,
       brightness: brightness,
       appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: fg),

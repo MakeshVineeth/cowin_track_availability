@@ -164,7 +164,9 @@ class _CentresListState extends State<CentresList> {
             // Check Ages based on user selection.
             String ageInSessionStr = map['min_age_limit'].toString().trim();
             int minAgeLimit = int.tryParse(ageInSessionStr) ?? 0;
-            int userSelectedAge = int.tryParse(widget.ageSelected) ?? 0;
+            int userSelectedAge =
+                int.tryParse(widget.ageSelected.replaceFirst('+', '').trim()) ??
+                    0;
             if (userSelectedAge >= minAgeLimit) _centresList.add(map);
           }
         }
