@@ -31,7 +31,13 @@ class _WeekScreenState extends State<WeekScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Column(
-            children: [
+            children: <Widget>[
+              GenericTypeDropDown(
+                list: _databaseProvider.vaccinesList,
+                value: selectedVaccine,
+                onChangeEvent: setVaccineType,
+                hintText: CommonData.vaccineHintText,
+              ),
               GenericTypeDropDown(
                 list: _databaseProvider.ageList,
                 value: selectedAge,

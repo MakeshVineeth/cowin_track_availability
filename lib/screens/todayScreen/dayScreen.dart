@@ -36,7 +36,7 @@ class _DayScreenState extends State<DayScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Column(
-            children: [
+            children: <Widget>[
               Text(
                 'Date: ' +
                     (widget.isToday
@@ -48,6 +48,12 @@ class _DayScreenState extends State<DayScreen> {
                 ),
               ),
               SizedBox(height: 5),
+              GenericTypeDropDown(
+                list: _databaseProvider.vaccinesList,
+                value: selectedVaccine,
+                onChangeEvent: setVaccineType,
+                hintText: CommonData.vaccineHintText,
+              ),
               GenericTypeDropDown(
                 list: _databaseProvider.ageList,
                 value: selectedAge,
