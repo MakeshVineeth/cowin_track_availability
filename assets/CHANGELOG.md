@@ -3,7 +3,6 @@
 ---
 
 - Support for higher refresh rate displays like 90/120hz.
-- Removed filter by vaccine type due to policy issues.
 - Updated built-in packages.
 - Performance improvements.
 - Bug fixes.
